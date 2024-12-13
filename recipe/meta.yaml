@@ -22,6 +22,9 @@ outputs:
       run_exports:
         - {{ pin_subpackage('fastjet-contrib', max_pin='x.x') }}
       script:
+        # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
+        - export LDFLAGS="${LDFLAGS} -headerpad_max_install_names"  # [osx and arm64]
+
         # Get an updated config.sub and config.guess
         - cp $BUILD_PREFIX/share/gnuconfig/config.* .
         - ./configure --help
