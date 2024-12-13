@@ -62,7 +62,6 @@ outputs:
         - make
         - pkg-config
         - gnuconfig
-        - fastjet-cxx  # [build_platform != target_platform]
       host:
         - fastjet-cxx
       run:
@@ -100,7 +99,6 @@ outputs:
         - make
         - pkg-config
         - gnuconfig
-        - fastjet-cxx  # [build_platform != target_platform]
       host:
         - fastjet-cxx
       run:
