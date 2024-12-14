@@ -129,7 +129,7 @@ about:
   doc_url: https://fastjet.hepforge.org/contrib/
 
 extra:
-  feedstock-name: {{ name }}
+  feedstock-name: fastjet-contrib
   recipe-maintainers:
     - kratsg
     - matthewfeickert
