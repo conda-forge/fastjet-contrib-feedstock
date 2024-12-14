@@ -10,6 +10,9 @@ package:
 source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-{{ version }}.tar.gz
   sha256: fc31544424dece0d0676ea2433ad1e96fd9db82920bc7a7ef6294ce94e659d6e
+  patches:
+    # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
+    - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
 
 build:
   number: 1
@@ -22,9 +25,6 @@ outputs:
       run_exports:
         - {{ pin_subpackage('fastjet-contrib', max_pin='x.x') }}
       script:
-        # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
-        - sed -i 's/DPIC $(CXXFLAGS)/DPIC $(CXXFLAGS) -Wl,-headerpad_max_install_names/g' Makefile.in  # [osx and arm64]
-
         # Get an updated config.sub and config.guess
         - cp $BUILD_PREFIX/share/gnuconfig/config.* .
         - ./configure --help
@@ -65,7 +65,6 @@ outputs:
         - make
         - pkg-config
         - gnuconfig
-        - sed  # [osx and arm64]
       host:
         - fastjet-cxx
       run:
