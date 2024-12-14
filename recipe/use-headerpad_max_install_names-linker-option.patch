@@ -1,0 +1,40 @@
+From 945813f1414a09c77cde49e95df9d3c13c0fc313 Mon Sep 17 00:00:00 2001
+From: Matthew Feickert <matthew.feickert@cern.ch>
+Date: Fri, 13 Dec 2024 23:48:02 -0700
+Subject: [PATCH] fix: Use -headerpad_max_install_names to avoid
+ install_name_tool error
+
+* Use '-Wl,-headerpad_max_install_names' linker option to avoid the macOS arm64
+  error:
+
+install_name_tool: changing install names or rpaths can't be redone for:
+$PREFIX/lib/libfastjetcontribfragile.dylib (for architecture arm64) because
+larger updated load commands do not fit (the program must be relinked, and
+you may need to use -headerpad or -headerpad_max_install_names)
+
+  From 'man ld' on macOS:
+
+-headerpad_max_install_names
+Automatically adds space for future expansion of load commands such that all
+paths could expand to MAXPATHLEN. Only useful if intend to run
+install_name_tool to alter the load commands later.
+---
+ Makefile.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 7f793cb..4654ef9 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -55,7 +55,7 @@ fragile-shared: libfastjetcontribfragile.@DYNLIBEXT@
+ 
+ fragile_SHARED_SRC_LIST=@FRAGILE_SHARED_SRC_LIST@
+ libfastjetcontribfragile.@DYNLIBEXT@: $(fragile_SHARED_SRC_LIST)
+-	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
++	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) -Wl,-headerpad_max_install_names `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
+ 
+ fragile-shared-install: fragile-shared
+ 	utils/install-sh -c -m 755 libfastjetcontribfragile.@DYNLIBEXT@ $(PREFIX)/lib
+-- 
+2.47.1
+
