@@ -75,7 +75,7 @@ curl -sL https://fastjet.hepforge.org/contrib/downloads/fjcontrib-"${PKG_VERSION
 cd fjcontrib-"${PKG_VERSION}"
 
 cd Centauro
-grep -rl '#include "Centauro.hh"' | xargs sed -i 's|#include "Centauro.hh"|#include "fastjet/contrib/Centauro.hh"|g' Centauro.cc
+grep -rl '#include "Centauro.hh"' | xargs sed -i 's|#include "Centauro.hh"|#include "fastjet/contrib/Centauro.hh"|g'
 $CXX example.cc -o example $CXXFLAGS $LDFLAGS -lfastjetcontribfragile -lfastjet
 ./example < ../data/single-event.dat &> Centauro_example_output.txt
 
