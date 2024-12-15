@@ -12,7 +12,7 @@ source:
   sha256: fc31544424dece0d0676ea2433ad1e96fd9db82920bc7a7ef6294ce94e659d6e
   patches:
     # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
-    - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
+    - use-headerpad_max_install_names-linker-option.patch  # [osx]
 
 build:
   number: 1
