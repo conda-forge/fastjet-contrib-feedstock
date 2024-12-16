@@ -1,5 +1,5 @@
 {% set name = "fastjet-contrib" %}
-{% set version = "1.056" %}
+{% set version = "1.100" %}
 
 package:
   # Have top level name be unique from any outputs
@@ -9,13 +9,13 @@ package:
 
 source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-{{ version }}.tar.gz
-  sha256: fc31544424dece0d0676ea2433ad1e96fd9db82920bc7a7ef6294ce94e659d6e
+  sha256: 52ad945d9195c40f347958dc04041e41c7130e845ebdf0c13f1bbdd5b6d2429b
   patches:
     # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
     - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: {{ name }}
