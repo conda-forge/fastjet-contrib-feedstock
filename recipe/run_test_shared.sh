@@ -76,12 +76,12 @@ cd fjcontrib-"${PKG_VERSION}"
 
 cd Centauro
 grep -rl '#include "Centauro.hh"' | xargs sed -i 's|#include "Centauro.hh"|#include "fastjet/contrib/Centauro.hh"|g'
-$CXX example.cc -o example $CXXFLAGS $LDFLAGS -lfastjetcontribfragile -lfastjet
-./example < ../data/single-event.dat &> Centauro_example_output.txt
+$CXX example.cc -o example $CXXFLAGS $LDFLAGS -lfastjetcontribfragile -lfastjettools -lfastjet
+./example < ../data/single-event.dat &> Centauro_example_output.txt || ./example < ../data/single-event.dat
 
 cd ../ClusteringVetoPlugin
 grep -rl '#include "ClusteringVetoPlugin.hh"' | xargs sed -i 's|#include "ClusteringVetoPlugin.hh"|#include "fastjet/contrib/ClusteringVetoPlugin.hh"|g'
-$CXX example.cc -o example $CXXFLAGS $LDFLAGS -lfastjetcontribfragile -lfastjet
+$CXX example.cc -o example $CXXFLAGS $LDFLAGS -lfastjetcontribfragile -lfastjettools -lfastjet
 ./example < ../data/single-event.dat &> ClusteringVetoPlugin_example_output.txt
 
 cd ../ConstituentSubtractor
