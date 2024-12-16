@@ -38,12 +38,14 @@ outputs:
         - make install
         - make fragile-shared-install
         # Remove the static libraries that got installed
+        - rm $PREFIX/lib/libCMPPlugin.a
         - rm $PREFIX/lib/libCentauro.a
         - rm $PREFIX/lib/libClusteringVetoPlugin.a
         - rm $PREFIX/lib/libConstituentSubtractor.a
         - rm $PREFIX/lib/libEnergyCorrelator.a
         - rm $PREFIX/lib/libFlavorCone.a
         - rm $PREFIX/lib/libGenericSubtractor.a
+        - rm $PREFIX/lib/libIFNPlugin.a
         - rm $PREFIX/lib/libJetCleanser.a
         - rm $PREFIX/lib/libJetFFMoments.a
         - rm $PREFIX/lib/libJetsWithoutJets.a
