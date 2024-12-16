@@ -11,6 +11,8 @@ source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-{{ version }}.tar.gz
   sha256: 52ad945d9195c40f347958dc04041e41c7130e845ebdf0c13f1bbdd5b6d2429b
   patches:
+    # FIXME: libfastjetcontribfragile.so.0 not found
+    - remove-soname-flag-for-fastjetcontribfragile.patch  # [linux]
     # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
     - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
 
