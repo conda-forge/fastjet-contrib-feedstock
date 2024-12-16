@@ -1,6 +1,6 @@
-From 945813f1414a09c77cde49e95df9d3c13c0fc313 Mon Sep 17 00:00:00 2001
+From 68039911df3220451dbcc1e39e70e8036f1a6c18 Mon Sep 17 00:00:00 2001
 From: Matthew Feickert <matthew.feickert@cern.ch>
-Date: Fri, 13 Dec 2024 23:48:02 -0700
+Date: Sun, 15 Dec 2024 23:44:47 -0700
 Subject: [PATCH] fix: Use -headerpad_max_install_names to avoid
  install_name_tool error
 
@@ -23,15 +23,15 @@ install_name_tool to alter the load commands later.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 7f793cb..4654ef9 100644
+index 6efc474..cd99893 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -55,7 +55,7 @@ fragile-shared: libfastjetcontribfragile.@DYNLIBEXT@
- 
+@@ -63,7 +63,7 @@ fragile-shared: libfastjetcontribfragile.@DYNLIBEXT@
  fragile_SHARED_SRC_LIST=@FRAGILE_SHARED_SRC_LIST@
+ fragile_SHARED_INCLUDES=@FRAGILE_SHARED_INCLUDES@
  libfastjetcontribfragile.@DYNLIBEXT@: $(fragile_SHARED_SRC_LIST)
--	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
-+	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) -Wl,-headerpad_max_install_names `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
+-	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_INCLUDES) $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
++	$(CXX) @DYNLIBOPT@ -fPIC -DPIC $(CXXFLAGS) -Wl,-headerpad_max_install_names `$(FASTJETCONFIG) --cxxflags --libs` $(fragile_SHARED_INCLUDES) $(fragile_SHARED_SRC_LIST) -o libfastjetcontribfragile.@DYNLIBEXT@
  
  fragile-shared-install: fragile-shared
  	utils/install-sh -c -m 755 libfastjetcontribfragile.@DYNLIBEXT@ $(PREFIX)/lib

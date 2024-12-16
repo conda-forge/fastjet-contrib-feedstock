@@ -1,0 +1,27 @@
+From bbb56c0840c374d1739388afc2525b11c5470a2e Mon Sep 17 00:00:00 2001
+From: Matthew Feickert <matthew.feickert@cern.ch>
+Date: Sun, 15 Dec 2024 23:38:02 -0700
+Subject: [PATCH] fix: Remove soname flag for fastjetcontribfragile.so.0
+
+* The existence of libfastjetcontribfragile.so.0 is not required or
+currently guaranteed to be found when installed.
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 879d44f..47848de 100755
+--- a/configure
++++ b/configure
+@@ -352,7 +352,7 @@ else
+     #dynlibopt="-shared"
+     # the following more elaborate set of options requested by Alexander Puck Neuwirth
+     # for compatibility with gentoo, cf. https://github.com/fjcontrib/fjcontrib/issues/4
+-    dynlibopt="-shared -Wl,--as-needed -Wl,-soname,fastjetcontribfragile.so.0"
++    dynlibopt="-shared -Wl,--as-needed"
+     dynlibext="so"
+     dynlibpostproc="" # some dummy command needed
+ fi
+-- 
+2.47.1
+
