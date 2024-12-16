@@ -1,12 +1,14 @@
 #!/bin/bash
 set -x
 
+test -f $PREFIX/lib/libCMPPlugin.a
 test -f $PREFIX/lib/libCentauro.a
 test -f $PREFIX/lib/libClusteringVetoPlugin.a
 test -f $PREFIX/lib/libConstituentSubtractor.a
 test -f $PREFIX/lib/libEnergyCorrelator.a
 test -f $PREFIX/lib/libFlavorCone.a
 test -f $PREFIX/lib/libGenericSubtractor.a
+test -f $PREFIX/lib/libIFNPlugin.a
 test -f $PREFIX/lib/libJetCleanser.a
 test -f $PREFIX/lib/libJetFFMoments.a
 test -f $PREFIX/lib/libJetsWithoutJets.a
@@ -22,51 +24,57 @@ test -f $PREFIX/lib/libValenciaPlugin.a
 test -f $PREFIX/lib/libVariableR.a
 test ! -f $PREFIX/lib/libfastjetcontribfragile${SHLIB_EXT}
 
+test -f $PREFIX/include/fastjet/contrib/AxesDefinition.hh
+test -f $PREFIX/include/fastjet/contrib/BottomUpSoftDrop.hh
+test -f $PREFIX/include/fastjet/contrib/CMPPlugin.hh
 test -f $PREFIX/include/fastjet/contrib/Centauro.hh
 test -f $PREFIX/include/fastjet/contrib/ClusteringVetoPlugin.hh
 test -f $PREFIX/include/fastjet/contrib/ConstituentSubtractor.hh
-test -f $PREFIX/include/fastjet/contrib/IterativeConstituentSubtractor.hh
-test -f $PREFIX/include/fastjet/contrib/RescalingClasses.hh
+test -f $PREFIX/include/fastjet/contrib/DistanceMeasure.hh
 test -f $PREFIX/include/fastjet/contrib/EnergyCorrelator.hh
+test -f $PREFIX/include/fastjet/contrib/EventStorage.hh
+test -f $PREFIX/include/fastjet/contrib/ExtraRecombiners.hh
+test -f $PREFIX/include/fastjet/contrib/FlavInfo.hh
+test -f $PREFIX/include/fastjet/contrib/FlavNeutraliser.hh
 test -f $PREFIX/include/fastjet/contrib/FlavorCone.hh
 test -f $PREFIX/include/fastjet/contrib/GenericSubtractor.hh
-test -f $PREFIX/include/fastjet/contrib/ShapeWithPartition.hh
-test -f $PREFIX/include/fastjet/contrib/ShapeWithComponents.hh
+test -f $PREFIX/include/fastjet/contrib/IFNPlugin.hh
+test -f $PREFIX/include/fastjet/contrib/IteratedSoftDrop.hh
+test -f $PREFIX/include/fastjet/contrib/IterativeConstituentSubtractor.hh
 test -f $PREFIX/include/fastjet/contrib/JetCleanser.hh
 test -f $PREFIX/include/fastjet/contrib/JetFFMoments.hh
 test -f $PREFIX/include/fastjet/contrib/JetsWithoutJets.hh
-test -f $PREFIX/include/fastjet/contrib/EventStorage.hh
 test -f $PREFIX/include/fastjet/contrib/KTClusCXX.hh
-test -f $PREFIX/include/fastjet/contrib/LundGenerator.hh
-test -f $PREFIX/include/fastjet/contrib/LundWithSecondary.hh
-test -f $PREFIX/include/fastjet/contrib/SecondaryLund.hh
-test -f $PREFIX/include/fastjet/contrib/RecursiveLundEEGenerator.hh
-test -f $PREFIX/include/fastjet/contrib/LundJSON.hh
 test -f $PREFIX/include/fastjet/contrib/LundEEHelpers.hh
-test -f $PREFIX/include/fastjet/contrib/Nsubjettiness.hh
+test -f $PREFIX/include/fastjet/contrib/LundGenerator.hh
+test -f $PREFIX/include/fastjet/contrib/LundJSON.hh
+test -f $PREFIX/include/fastjet/contrib/LundPlane.hh
+test -f $PREFIX/include/fastjet/contrib/LundWithSecondary.hh
+test -f $PREFIX/include/fastjet/contrib/MassFlav.hh
+test -f $PREFIX/include/fastjet/contrib/MeasureDefinition.hh
+test -f $PREFIX/include/fastjet/contrib/ModifiedMassDropTagger.hh
 test -f $PREFIX/include/fastjet/contrib/Njettiness.hh
 test -f $PREFIX/include/fastjet/contrib/NjettinessPlugin.hh
-test -f $PREFIX/include/fastjet/contrib/XConePlugin.hh
-test -f $PREFIX/include/fastjet/contrib/MeasureDefinition.hh
-test -f $PREFIX/include/fastjet/contrib/ExtraRecombiners.hh
-test -f $PREFIX/include/fastjet/contrib/AxesDefinition.hh
-test -f $PREFIX/include/fastjet/contrib/TauComponents.hh
+test -f $PREFIX/include/fastjet/contrib/Nsubjettiness.hh
 test -f $PREFIX/include/fastjet/contrib/QCDAwarePlugin.hh
-test -f $PREFIX/include/fastjet/contrib/DistanceMeasure.hh
 test -f $PREFIX/include/fastjet/contrib/Recluster.hh
-test -f $PREFIX/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
-test -f $PREFIX/include/fastjet/contrib/ModifiedMassDropTagger.hh
-test -f $PREFIX/include/fastjet/contrib/SoftDrop.hh
-test -f $PREFIX/include/fastjet/contrib/IteratedSoftDrop.hh
+test -f $PREFIX/include/fastjet/contrib/RecursiveLundEEGenerator.hh
 test -f $PREFIX/include/fastjet/contrib/RecursiveSoftDrop.hh
-test -f $PREFIX/include/fastjet/contrib/BottomUpSoftDrop.hh
+test -f $PREFIX/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
+test -f $PREFIX/include/fastjet/contrib/RescalingClasses.hh
 test -f $PREFIX/include/fastjet/contrib/ScJet.hh
+test -f $PREFIX/include/fastjet/contrib/SecondaryLund.hh
+test -f $PREFIX/include/fastjet/contrib/ShapeWithComponents.hh
+test -f $PREFIX/include/fastjet/contrib/ShapeWithPartition.hh
 test -f $PREFIX/include/fastjet/contrib/SignalFreeBackgroundEstimator.hh
+test -f $PREFIX/include/fastjet/contrib/SoftDrop.hh
 test -f $PREFIX/include/fastjet/contrib/SoftKiller.hh
 test -f $PREFIX/include/fastjet/contrib/SubjetCounting.hh
+test -f $PREFIX/include/fastjet/contrib/TauComponents.hh
 test -f $PREFIX/include/fastjet/contrib/ValenciaPlugin.hh
 test -f $PREFIX/include/fastjet/contrib/VariableR.hh
 test -f $PREFIX/include/fastjet/contrib/VariableRPlugin.hh
+test -f $PREFIX/include/fastjet/contrib/XConePlugin.hh
 
 # The repository is too large to vendor in the info/test/ package metadata, so download it
 # Need to use PKG_VERSION as the shell script doesn't have access to Jinja2 variables
