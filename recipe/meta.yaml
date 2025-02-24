@@ -11,9 +11,6 @@ source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-{{ version }}.tar.gz
   sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
-    # FIXME: Can remove after fastjet-contrib v1.101
-    # c.f. https://github.com/fjcontrib/fjcontrib/issues/5
-    - drop-libfastjetcontribfragile-abi-version-suffix.patch  # [linux]
     # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
     - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
 
