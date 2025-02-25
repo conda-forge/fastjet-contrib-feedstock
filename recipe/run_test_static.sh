@@ -7,6 +7,7 @@ test -f $PREFIX/lib/libClusteringVetoPlugin.a
 test -f $PREFIX/lib/libConstituentSubtractor.a
 test -f $PREFIX/lib/libEnergyCorrelator.a
 test -f $PREFIX/lib/libFlavorCone.a
+test -f $PREFIX/lib/libGHSAlgo.a
 test -f $PREFIX/lib/libGenericSubtractor.a
 test -f $PREFIX/lib/libIFNPlugin.a
 test -f $PREFIX/lib/libJetCleanser.a
@@ -16,6 +17,7 @@ test -f $PREFIX/lib/libLundPlane.a
 test -f $PREFIX/lib/libNsubjettiness.a
 test -f $PREFIX/lib/libQCDAwarePlugin.a
 test -f $PREFIX/lib/libRecursiveTools.a
+test -f $PREFIX/lib/libSDFPlugin.a
 test -f $PREFIX/lib/libScJet.a
 test -f $PREFIX/lib/libSignalFreeBackgroundEstimator.a
 test -f $PREFIX/lib/libSoftKiller.a
@@ -37,6 +39,7 @@ test -f $PREFIX/include/fastjet/contrib/ExtraRecombiners.hh
 test -f $PREFIX/include/fastjet/contrib/FlavInfo.hh
 test -f $PREFIX/include/fastjet/contrib/FlavNeutraliser.hh
 test -f $PREFIX/include/fastjet/contrib/FlavorCone.hh
+test -f $PREFIX/include/fastjet/contrib/GHSAlgo.hh
 test -f $PREFIX/include/fastjet/contrib/GenericSubtractor.hh
 test -f $PREFIX/include/fastjet/contrib/IFNPlugin.hh
 test -f $PREFIX/include/fastjet/contrib/IteratedSoftDrop.hh
@@ -62,6 +65,7 @@ test -f $PREFIX/include/fastjet/contrib/RecursiveLundEEGenerator.hh
 test -f $PREFIX/include/fastjet/contrib/RecursiveSoftDrop.hh
 test -f $PREFIX/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
 test -f $PREFIX/include/fastjet/contrib/RescalingClasses.hh
+test -f $PREFIX/include/fastjet/contrib/SDFPlugin.hh
 test -f $PREFIX/include/fastjet/contrib/ScJet.hh
 test -f $PREFIX/include/fastjet/contrib/SecondaryLund.hh
 test -f $PREFIX/include/fastjet/contrib/ShapeWithComponents.hh

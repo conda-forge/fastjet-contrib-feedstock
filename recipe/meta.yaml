@@ -42,6 +42,7 @@ outputs:
         - rm $PREFIX/lib/libConstituentSubtractor.a
         - rm $PREFIX/lib/libEnergyCorrelator.a
         - rm $PREFIX/lib/libFlavorCone.a
+        - rm $PREFIX/lib/libGHSAlgo.a
         - rm $PREFIX/lib/libGenericSubtractor.a
         - rm $PREFIX/lib/libIFNPlugin.a
         - rm $PREFIX/lib/libJetCleanser.a
@@ -51,6 +52,7 @@ outputs:
         - rm $PREFIX/lib/libNsubjettiness.a
         - rm $PREFIX/lib/libQCDAwarePlugin.a
         - rm $PREFIX/lib/libRecursiveTools.a
+        - rm $PREFIX/lib/libSDFPlugin.a
         - rm $PREFIX/lib/libScJet.a
         - rm $PREFIX/lib/libSignalFreeBackgroundEstimator.a
         - rm $PREFIX/lib/libSoftKiller.a
