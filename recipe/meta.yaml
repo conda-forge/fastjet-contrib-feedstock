@@ -1,5 +1,5 @@
 {% set name = "fastjet-contrib" %}
-{% set version = "1.100" %}
+{% set version = "1.101" %}
 
 package:
   # Have top level name be unique from any outputs
@@ -9,16 +9,13 @@ package:
 
 source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-{{ version }}.tar.gz
-  sha256: 52ad945d9195c40f347958dc04041e41c7130e845ebdf0c13f1bbdd5b6d2429b
+  sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
-    # FIXME: Can remove after fastjet-contrib v1.101
-    # c.f. https://github.com/fjcontrib/fjcontrib/issues/5
-    - drop-libfastjetcontribfragile-abi-version-suffix.patch  # [linux]
     # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
     - use-headerpad_max_install_names-linker-option.patch  # [osx and arm64]
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: {{ name }}
@@ -45,6 +42,7 @@ outputs:
         - rm $PREFIX/lib/libConstituentSubtractor.a
         - rm $PREFIX/lib/libEnergyCorrelator.a
         - rm $PREFIX/lib/libFlavorCone.a
+        - rm $PREFIX/lib/libGHSAlgo.a
         - rm $PREFIX/lib/libGenericSubtractor.a
         - rm $PREFIX/lib/libIFNPlugin.a
         - rm $PREFIX/lib/libJetCleanser.a
@@ -54,6 +52,7 @@ outputs:
         - rm $PREFIX/lib/libNsubjettiness.a
         - rm $PREFIX/lib/libQCDAwarePlugin.a
         - rm $PREFIX/lib/libRecursiveTools.a
+        - rm $PREFIX/lib/libSDFPlugin.a
         - rm $PREFIX/lib/libScJet.a
         - rm $PREFIX/lib/libSignalFreeBackgroundEstimator.a
         - rm $PREFIX/lib/libSoftKiller.a
