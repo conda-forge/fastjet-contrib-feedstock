@@ -16,7 +16,6 @@ Documentation: https://fastjet.hepforge.org/contrib/
 The fastjet-contrib space is intended to provide a common location for
 access to 3rd party extensions of FastJet.
 
-
 Current build status
 ====================
 
@@ -200,5 +199,6 @@ Feedstock Maintainers
 =====================
 
 * [@kratsg](https://github.com/kratsg/)
+* [@lgray](https://github.com/lgray/)
 * [@matthewfeickert](https://github.com/matthewfeickert/)
 
