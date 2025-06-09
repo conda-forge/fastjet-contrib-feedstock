@@ -44,10 +44,10 @@ Subject: [PATCH 2/2] required source changes for windows build
  VariableR/VariableRPlugin.hh                         | 10 ++++++----
  38 files changed, 92 insertions(+), 68 deletions(-)
 
-diff --git CMPPlugin/CMPPlugin.cc CMPPlugin/CMPPlugin.cc
+diff --git a/CMPPlugin/CMPPlugin.cc b/CMPPlugin/CMPPlugin.cc
 index 07e9289..c747dad 100644
---- CMPPlugin/CMPPlugin.cc
-+++ CMPPlugin/CMPPlugin.cc
+--- a/CMPPlugin/CMPPlugin.cc
++++ b/CMPPlugin/CMPPlugin.cc
 @@ -18,7 +18,7 @@ constexpr double rap_transition = 0.1;
  constexpr double phi_transition = 0.1;
  
@@ -57,10 +57,10 @@ index 07e9289..c747dad 100644
      pow(std::numeric_limits<double>::epsilon(), 0.5);
  
  /// Info class for particle-independent information
-diff --git CMPPlugin/include/fastjet/contrib/CMPPlugin.hh CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
+diff --git a/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh b/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
 index 597795b..66d45ea 100644
---- CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
-+++ CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
+--- a/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
++++ b/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
 @@ -13,6 +13,8 @@
  #ifndef __CMPPLUGIN_HH__
  #define __CMPPLUGIN_HH__
@@ -79,10 +79,10 @@ index 597795b..66d45ea 100644
    double _R, _a;
    CorrectionType _correction_type;
    ClusteringType _clustering_type;
-diff --git Centauro/Centauro.cc Centauro/Centauro.cc
+diff --git a/Centauro/Centauro.cc b/Centauro/Centauro.cc
 index c656648..046219c 100644
---- Centauro/Centauro.cc
-+++ Centauro/Centauro.cc
+--- a/Centauro/Centauro.cc
++++ b/Centauro/Centauro.cc
 @@ -66,7 +66,7 @@ namespace contrib{
        nz = jet.pz() * norm;
        pT = jet.perp();
@@ -101,10 +101,10 @@ index c656648..046219c 100644
        desc << " gamma E and gamma Pz parameters were not given --> assume you are giving particles momenta in Breit frame";
      }
      return desc.str();
-diff --git ConstituentSubtractor/ConstituentSubtractor.cc ConstituentSubtractor/ConstituentSubtractor.cc
+diff --git a/ConstituentSubtractor/ConstituentSubtractor.cc b/ConstituentSubtractor/ConstituentSubtractor.cc
 index ee2222f..a931a85 100644
---- ConstituentSubtractor/ConstituentSubtractor.cc
-+++ ConstituentSubtractor/ConstituentSubtractor.cc
+--- a/ConstituentSubtractor/ConstituentSubtractor.cc
++++ b/ConstituentSubtractor/ConstituentSubtractor.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
@@ -114,10 +114,10 @@ index ee2222f..a931a85 100644
  
  
    ///
-diff --git ConstituentSubtractor/ConstituentSubtractor.hh ConstituentSubtractor/ConstituentSubtractor.hh
+diff --git a/ConstituentSubtractor/ConstituentSubtractor.hh b/ConstituentSubtractor/ConstituentSubtractor.hh
 index 48ac16c..d68e42a 100644
---- ConstituentSubtractor/ConstituentSubtractor.hh
-+++ ConstituentSubtractor/ConstituentSubtractor.hh
+--- a/ConstituentSubtractor/ConstituentSubtractor.hh
++++ b/ConstituentSubtractor/ConstituentSubtractor.hh
 @@ -25,6 +25,7 @@
  #ifndef __FASTJET_CONTRIB_CONSTITUENTSUBTRACTOR_HH__
  #define __FASTJET_CONTRIB_CONSTITUENTSUBTRACTOR_HH__
@@ -135,10 +135,10 @@ index 48ac16c..d68e42a 100644
    };
    
  
-diff --git EnergyCorrelator/EnergyCorrelator.cc EnergyCorrelator/EnergyCorrelator.cc
+diff --git a/EnergyCorrelator/EnergyCorrelator.cc b/EnergyCorrelator/EnergyCorrelator.cc
 index 229b5b4..50bd7dc 100644
---- EnergyCorrelator/EnergyCorrelator.cc
-+++ EnergyCorrelator/EnergyCorrelator.cc
+--- a/EnergyCorrelator/EnergyCorrelator.cc
++++ b/EnergyCorrelator/EnergyCorrelator.cc
 @@ -27,6 +27,7 @@
  #include "EnergyCorrelator.hh"
  #include <sstream>
@@ -147,10 +147,10 @@ index 229b5b4..50bd7dc 100644
  using namespace std;
  
  FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
-diff --git FlavorCone/FlavorCone.cc FlavorCone/FlavorCone.cc
+diff --git a/FlavorCone/FlavorCone.cc b/FlavorCone/FlavorCone.cc
 index 37fd092..0b10619 100644
---- FlavorCone/FlavorCone.cc
-+++ FlavorCone/FlavorCone.cc
+--- a/FlavorCone/FlavorCone.cc
++++ b/FlavorCone/FlavorCone.cc
 @@ -109,7 +109,7 @@ bool FlavorConePlugin::exclusive_sequence_meaningful() const {return false;}
  bool FlavorConePlugin::is_spherical() const {return false;}
  
@@ -160,10 +160,10 @@ index 37fd092..0b10619 100644
  FlavorConePlugin::Extras::Extras() : _invalid_seed(0, 0, 0, -1) {;}
  
  // Return the seed associated with a jet.
-diff --git FlavorCone/FlavorCone.hh FlavorCone/FlavorCone.hh
+diff --git a/FlavorCone/FlavorCone.hh b/FlavorCone/FlavorCone.hh
 index 5e05270..7406b0b 100644
---- FlavorCone/FlavorCone.hh
-+++ FlavorCone/FlavorCone.hh
+--- a/FlavorCone/FlavorCone.hh
++++ b/FlavorCone/FlavorCone.hh
 @@ -23,6 +23,8 @@
  #ifndef __FASTJET_CONTRIB_FLAVORCONE_HH__
  #define __FASTJET_CONTRIB_FLAVORCONE_HH__
@@ -182,10 +182,10 @@ index 5e05270..7406b0b 100644
      friend class FlavorConePlugin;
    };
  
-diff --git GenericSubtractor/GenericSubtractor.cc GenericSubtractor/GenericSubtractor.cc
+diff --git a/GenericSubtractor/GenericSubtractor.cc b/GenericSubtractor/GenericSubtractor.cc
 index 8bb6a77..07d3806 100644
---- GenericSubtractor/GenericSubtractor.cc
-+++ GenericSubtractor/GenericSubtractor.cc
+--- a/GenericSubtractor/GenericSubtractor.cc
++++ b/GenericSubtractor/GenericSubtractor.cc
 @@ -42,14 +42,14 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
@@ -204,10 +204,10 @@ index 8bb6a77..07d3806 100644
  
    // Constructor that takes an externally supplied value for rho and,
    // optionally, for rho_m. The latter defaults to zero.
-diff --git GenericSubtractor/GenericSubtractor.hh GenericSubtractor/GenericSubtractor.hh
+diff --git a/GenericSubtractor/GenericSubtractor.hh b/GenericSubtractor/GenericSubtractor.hh
 index 2eadfee..e537076 100644
---- GenericSubtractor/GenericSubtractor.hh
-+++ GenericSubtractor/GenericSubtractor.hh
+--- a/GenericSubtractor/GenericSubtractor.hh
++++ b/GenericSubtractor/GenericSubtractor.hh
 @@ -22,6 +22,8 @@
  #ifndef __FASTJET_CONTRIB_GENERIC_SUBTRACTOR_HH__
  #define __FASTJET_CONTRIB_GENERIC_SUBTRACTOR_HH__
@@ -232,10 +232,10 @@ index 2eadfee..e537076 100644
  };
  
  //------------------------------------------------------------------------
-diff --git IFNPlugin/FlavInfo.cc IFNPlugin/FlavInfo.cc
+diff --git a/IFNPlugin/FlavInfo.cc b/IFNPlugin/FlavInfo.cc
 index 6223385..cf9f4d3 100644
---- IFNPlugin/FlavInfo.cc
-+++ IFNPlugin/FlavInfo.cc
+--- a/IFNPlugin/FlavInfo.cc
++++ b/IFNPlugin/FlavInfo.cc
 @@ -176,7 +176,7 @@ bool FlavInfo::has_opposite_flavour(const PseudoJet & particle) const {
  
  //----------------------------------------------------------------------
@@ -245,10 +245,10 @@ index 6223385..cf9f4d3 100644
  
  //----------------------------------------------------------------------
  string FlavInfo::description() const {
-diff --git IFNPlugin/FlavNeutraliser.cc IFNPlugin/FlavNeutraliser.cc
+diff --git a/IFNPlugin/FlavNeutraliser.cc b/IFNPlugin/FlavNeutraliser.cc
 index 6c7e153..bd9546a 100644
---- IFNPlugin/FlavNeutraliser.cc
-+++ IFNPlugin/FlavNeutraliser.cc
+--- a/IFNPlugin/FlavNeutraliser.cc
++++ b/IFNPlugin/FlavNeutraliser.cc
 @@ -8,7 +8,7 @@
  #endif
  
@@ -296,10 +296,10 @@ index 6c7e153..bd9546a 100644
  
    // NOTE -- pp ref scale should evolve to become something
    // less sensitive to UE & pileup, but for now take something simple
-diff --git IFNPlugin/include/fastjet/contrib/FlavInfo.hh IFNPlugin/include/fastjet/contrib/FlavInfo.hh
+diff --git a/IFNPlugin/include/fastjet/contrib/FlavInfo.hh b/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
 index 75b23ab..89faa20 100644
---- IFNPlugin/include/fastjet/contrib/FlavInfo.hh
-+++ IFNPlugin/include/fastjet/contrib/FlavInfo.hh
+--- a/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
++++ b/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
 @@ -4,6 +4,8 @@
  #ifndef __FJCONTRIB_FLAVINFO_HH__
  #define __FJCONTRIB_FLAVINFO_HH__
@@ -332,10 +332,10 @@ index 75b23ab..89faa20 100644
  
  };
  
-diff --git IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
+diff --git a/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh b/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
 index b89a617..3c61fdd 100644
---- IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
-+++ IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
+--- a/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
++++ b/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
 @@ -153,7 +153,7 @@ private:
    /// the value of deltaR2 below which we replace 2*(cosh-cos) with
    /// (addition as of 2021-09-26, but not yet being used)
@@ -345,10 +345,10 @@ index b89a617..3c61fdd 100644
    bool    _modulo_2;
    measure _measure;
    bool    _use_mass_flav;
-diff --git JetCleanser/JetCleanser.cc JetCleanser/JetCleanser.cc
+diff --git a/JetCleanser/JetCleanser.cc b/JetCleanser/JetCleanser.cc
 index cacac3f..4e906db 100644
---- JetCleanser/JetCleanser.cc
-+++ JetCleanser/JetCleanser.cc
+--- a/JetCleanser/JetCleanser.cc
++++ b/JetCleanser/JetCleanser.cc
 @@ -32,8 +32,8 @@ namespace contrib{
    // Modification to satisfy C++11 (thanks to Gavin Salam)
  #if __cplusplus >= 201103L
@@ -360,10 +360,10 @@ index cacac3f..4e906db 100644
  
    /////////////////////////////
    // constructor
-diff --git JetCleanser/JetCleanser.hh JetCleanser/JetCleanser.hh
+diff --git a/JetCleanser/JetCleanser.hh b/JetCleanser/JetCleanser.hh
 index 2c8cc5f..6665a33 100644
---- JetCleanser/JetCleanser.hh
-+++ JetCleanser/JetCleanser.hh
+--- a/JetCleanser/JetCleanser.hh
++++ b/JetCleanser/JetCleanser.hh
 @@ -26,6 +26,8 @@
  #ifndef __FASTJET_CONTRIB_JETCLEANSER_HH__
  #define __FASTJET_CONTRIB_JETCLEANSER_HH__
@@ -384,10 +384,10 @@ index 2c8cc5f..6665a33 100644
  
    double _rsub;
    double _fcut;
-diff --git JetFFMoments/JetFFMoments.cc JetFFMoments/JetFFMoments.cc
+diff --git a/JetFFMoments/JetFFMoments.cc b/JetFFMoments/JetFFMoments.cc
 index 520520c..118db93 100644
---- JetFFMoments/JetFFMoments.cc
-+++ JetFFMoments/JetFFMoments.cc
+--- a/JetFFMoments/JetFFMoments.cc
++++ b/JetFFMoments/JetFFMoments.cc
 @@ -59,7 +59,7 @@ namespace contrib{
    };
  #endif
@@ -397,10 +397,10 @@ index 520520c..118db93 100644
  
    // ctor from a vector of n values
    //  - ns   the vector of n values (all non-negative)
-diff --git JetFFMoments/JetFFMoments.hh JetFFMoments/JetFFMoments.hh
+diff --git a/JetFFMoments/JetFFMoments.hh b/JetFFMoments/JetFFMoments.hh
 index 2c2f584..6fffc8f 100644
---- JetFFMoments/JetFFMoments.hh
-+++ JetFFMoments/JetFFMoments.hh
+--- a/JetFFMoments/JetFFMoments.hh
++++ b/JetFFMoments/JetFFMoments.hh
 @@ -22,6 +22,8 @@
  #ifndef __FASTJET_CONTRIB_JET_FF_MOMENTS_HH__
  #define __FASTJET_CONTRIB_JET_FF_MOMENTS_HH__
@@ -419,10 +419,10 @@ index 2c2f584..6fffc8f 100644
  
    /// initialisation of the internal behaviour
    void _initialise();
-diff --git LundPlane/include/fastjet/contrib/LundEEHelpers.hh LundPlane/include/fastjet/contrib/LundEEHelpers.hh
+diff --git a/LundPlane/include/fastjet/contrib/LundEEHelpers.hh b/LundPlane/include/fastjet/contrib/LundEEHelpers.hh
 index 792222b..33741b6 100644
---- LundPlane/include/fastjet/contrib/LundEEHelpers.hh
-+++ LundPlane/include/fastjet/contrib/LundEEHelpers.hh
+--- a/LundPlane/include/fastjet/contrib/LundEEHelpers.hh
++++ b/LundPlane/include/fastjet/contrib/LundEEHelpers.hh
 @@ -25,6 +25,7 @@
  #include "fastjet/PseudoJet.hh"
  #include <array>
@@ -431,10 +431,10 @@ index 792222b..33741b6 100644
  
  FASTJET_BEGIN_NAMESPACE
  
-diff --git LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
+diff --git a/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh b/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
 index ff73a0b..70c9301 100644
---- LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
-+++ LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
+--- a/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
++++ b/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
 @@ -33,6 +33,7 @@
  #include <vector>
  #include <utility>
@@ -443,10 +443,10 @@ index ff73a0b..70c9301 100644
  
  using namespace std;
  
-diff --git Nsubjettiness/AxesDefinition.cc Nsubjettiness/AxesDefinition.cc
+diff --git a/Nsubjettiness/AxesDefinition.cc b/Nsubjettiness/AxesDefinition.cc
 index 1411139..c312a06 100644
---- Nsubjettiness/AxesDefinition.cc
-+++ Nsubjettiness/AxesDefinition.cc
+--- a/Nsubjettiness/AxesDefinition.cc
++++ b/Nsubjettiness/AxesDefinition.cc
 @@ -77,9 +77,9 @@ PseudoJet AxesDefinition::jiggle(const PseudoJet& axis) const {
  }
  
@@ -460,10 +460,10 @@ index 1411139..c312a06 100644
  
  std::vector<fastjet::PseudoJet> Manual_Axes::get_starting_axes(int,
                                                                 const std::vector<fastjet::PseudoJet>&,
-diff --git Nsubjettiness/AxesDefinition.hh Nsubjettiness/AxesDefinition.hh
+diff --git a/Nsubjettiness/AxesDefinition.hh b/Nsubjettiness/AxesDefinition.hh
 index be97d59..2682076 100644
---- Nsubjettiness/AxesDefinition.hh
-+++ Nsubjettiness/AxesDefinition.hh
+--- a/Nsubjettiness/AxesDefinition.hh
++++ b/Nsubjettiness/AxesDefinition.hh
 @@ -25,7 +25,7 @@
  #ifndef __FASTJET_CONTRIB_AXES_DEFINITION_HH__
  #define __FASTJET_CONTRIB_AXES_DEFINITION_HH__
@@ -508,10 +508,10 @@ index be97d59..2682076 100644
  
  };
  
-diff --git Nsubjettiness/Njettiness.cc Nsubjettiness/Njettiness.cc
+diff --git a/Nsubjettiness/Njettiness.cc b/Nsubjettiness/Njettiness.cc
 index d4a665d..d8b3f36 100644
---- Nsubjettiness/Njettiness.cc
-+++ Nsubjettiness/Njettiness.cc
+--- a/Nsubjettiness/Njettiness.cc
++++ b/Nsubjettiness/Njettiness.cc
 @@ -35,8 +35,8 @@ namespace contrib {
  //
  ///////
@@ -523,10 +523,10 @@ index d4a665d..d8b3f36 100644
  
     
  // Constructor
-diff --git Nsubjettiness/Njettiness.hh Nsubjettiness/Njettiness.hh
+diff --git a/Nsubjettiness/Njettiness.hh b/Nsubjettiness/Njettiness.hh
 index 8784e51..3c950c4 100644
---- Nsubjettiness/Njettiness.hh
-+++ Nsubjettiness/Njettiness.hh
+--- a/Nsubjettiness/Njettiness.hh
++++ b/Nsubjettiness/Njettiness.hh
 @@ -187,9 +187,9 @@ private:
     mutable TauPartition _currentPartition; //partitioning information
  
@@ -539,10 +539,10 @@ index 8784e51..3c950c4 100644
  
     
  public:
-diff --git Nsubjettiness/NjettinessPlugin.cc Nsubjettiness/NjettinessPlugin.cc
+diff --git a/Nsubjettiness/NjettinessPlugin.cc b/Nsubjettiness/NjettinessPlugin.cc
 index fdc3f77..bec87a7 100644
---- Nsubjettiness/NjettinessPlugin.cc
-+++ Nsubjettiness/NjettinessPlugin.cc
+--- a/Nsubjettiness/NjettinessPlugin.cc
++++ b/Nsubjettiness/NjettinessPlugin.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
@@ -552,10 +552,10 @@ index fdc3f77..bec87a7 100644
  
  std::string NjettinessPlugin::description() const {return "N-jettiness jet finder";}
  
-diff --git Nsubjettiness/NjettinessPlugin.hh Nsubjettiness/NjettinessPlugin.hh
+diff --git a/Nsubjettiness/NjettinessPlugin.hh b/Nsubjettiness/NjettinessPlugin.hh
 index fb3385c..5184ae1 100644
---- Nsubjettiness/NjettinessPlugin.hh
-+++ Nsubjettiness/NjettinessPlugin.hh
+--- a/Nsubjettiness/NjettinessPlugin.hh
++++ b/Nsubjettiness/NjettinessPlugin.hh
 @@ -109,7 +109,7 @@ private:
     int _N;  ///< Number of exclusive jets to find.
  
@@ -572,10 +572,10 @@ index fb3385c..5184ae1 100644
 -#endif  // __FASTJET_CONTRIB_NJETTINESSPLUGIN_HH__
 \ No newline at end of file
 +#endif  // __FASTJET_CONTRIB_NJETTINESSPLUGIN_HH__
-diff --git Nsubjettiness/Nsubjettiness.cc Nsubjettiness/Nsubjettiness.cc
+diff --git a/Nsubjettiness/Nsubjettiness.cc b/Nsubjettiness/Nsubjettiness.cc
 index 29a708f..e2cd4d4 100644
---- Nsubjettiness/Nsubjettiness.cc
-+++ Nsubjettiness/Nsubjettiness.cc
+--- a/Nsubjettiness/Nsubjettiness.cc
++++ b/Nsubjettiness/Nsubjettiness.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib {
@@ -585,10 +585,10 @@ index 29a708f..e2cd4d4 100644
     
     
  //result returns tau_N with normalization dependent on what is specified in constructor
-diff --git Nsubjettiness/Nsubjettiness.hh Nsubjettiness/Nsubjettiness.hh
+diff --git a/Nsubjettiness/Nsubjettiness.hh b/Nsubjettiness/Nsubjettiness.hh
 index f87fd01..55528c1 100644
---- Nsubjettiness/Nsubjettiness.hh
-+++ Nsubjettiness/Nsubjettiness.hh
+--- a/Nsubjettiness/Nsubjettiness.hh
++++ b/Nsubjettiness/Nsubjettiness.hh
 @@ -140,7 +140,7 @@ private:
     int _N;
     
@@ -598,10 +598,10 @@ index f87fd01..55528c1 100644
  
  public:
     
-diff --git Nsubjettiness/TauComponents.hh Nsubjettiness/TauComponents.hh
+diff --git a/Nsubjettiness/TauComponents.hh b/Nsubjettiness/TauComponents.hh
 index ecb1ad6..9a04071 100644
---- Nsubjettiness/TauComponents.hh
-+++ Nsubjettiness/TauComponents.hh
+--- a/Nsubjettiness/TauComponents.hh
++++ b/Nsubjettiness/TauComponents.hh
 @@ -29,7 +29,6 @@
  #include "fastjet/ClusterSequence.hh"
  #include "fastjet/WrappedStructure.hh"
@@ -610,10 +610,10 @@ index ecb1ad6..9a04071 100644
  #include <cmath>
  #include <vector>
  #include <list>
-diff --git RecursiveTools/Recluster.cc RecursiveTools/Recluster.cc
+diff --git a/RecursiveTools/Recluster.cc b/RecursiveTools/Recluster.cc
 index 7a5667f..84ce2e0 100644
---- RecursiveTools/Recluster.cc
-+++ RecursiveTools/Recluster.cc
+--- a/RecursiveTools/Recluster.cc
++++ b/RecursiveTools/Recluster.cc
 @@ -46,7 +46,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
@@ -623,10 +623,10 @@ index 7a5667f..84ce2e0 100644
  
  // class description
  string Recluster::description() const {
-diff --git RecursiveTools/RecursiveSymmetryCutBase.cc RecursiveTools/RecursiveSymmetryCutBase.cc
+diff --git a/RecursiveTools/RecursiveSymmetryCutBase.cc b/RecursiveTools/RecursiveSymmetryCutBase.cc
 index b90b613..3ce5bb3 100644
---- RecursiveTools/RecursiveSymmetryCutBase.cc
-+++ RecursiveTools/RecursiveSymmetryCutBase.cc
+--- a/RecursiveTools/RecursiveSymmetryCutBase.cc
++++ b/RecursiveTools/RecursiveSymmetryCutBase.cc
 @@ -32,12 +32,12 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
@@ -644,10 +644,10 @@ index b90b613..3ce5bb3 100644
  
  //----------------------------------------------------------------------
  PseudoJet RecursiveSymmetryCutBase::result(const PseudoJet & jet) const {
-diff --git RecursiveTools/include/fastjet/contrib/Recluster.hh RecursiveTools/include/fastjet/contrib/Recluster.hh
+diff --git a/RecursiveTools/include/fastjet/contrib/Recluster.hh b/RecursiveTools/include/fastjet/contrib/Recluster.hh
 index 7f7c639..a26a514 100644
---- RecursiveTools/include/fastjet/contrib/Recluster.hh
-+++ RecursiveTools/include/fastjet/contrib/Recluster.hh
+--- a/RecursiveTools/include/fastjet/contrib/Recluster.hh
++++ b/RecursiveTools/include/fastjet/contrib/Recluster.hh
 @@ -22,6 +22,8 @@
  // along with this code. If not, see <http://www.gnu.org/licenses/>.
  //----------------------------------------------------------------------
@@ -666,10 +666,10 @@ index 7f7c639..a26a514 100644
  };
  
  } // namespace contrib
-diff --git RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
+diff --git a/RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh b/RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
 index 1a2eb86..33f6491 100644
---- RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
-+++ RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
+--- a/RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
++++ b/RecursiveTools/include/fastjet/contrib/RecursiveSoftDrop.hh
 @@ -189,7 +189,7 @@ public:
  protected:  
    /// return false if we reached desired layer of grooming _n
@@ -679,10 +679,10 @@ index 1a2eb86..33f6491 100644
    }
    
  private:
-diff --git RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
+diff --git a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
 index e27e7bc..a67dff7 100644
---- RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
-+++ RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
+--- a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
++++ b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
 @@ -33,6 +33,7 @@
  
  // we'll use the native FJ class for reculstering if available
@@ -714,10 +714,10 @@ index e27e7bc..a67dff7 100644
  
    // additional verbose structure information
    bool _verbose_structure;
-diff --git SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
+diff --git a/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc b/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
 index 2f1f741..324126d 100644
---- SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
-+++ SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
+--- a/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
++++ b/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
 @@ -21,6 +21,7 @@
  // along with this code. If not, see <http://www.gnu.org/licenses/>.
  //----------------------------------------------------------------------
@@ -726,10 +726,10 @@ index 2f1f741..324126d 100644
  #include "SignalFreeBackgroundEstimator.hh"
  
  FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
-diff --git SoftKiller/SoftKiller.cc SoftKiller/SoftKiller.cc
+diff --git a/SoftKiller/SoftKiller.cc b/SoftKiller/SoftKiller.cc
 index 6ab411f..f25638c 100644
---- SoftKiller/SoftKiller.cc
-+++ SoftKiller/SoftKiller.cc
+--- a/SoftKiller/SoftKiller.cc
++++ b/SoftKiller/SoftKiller.cc
 @@ -19,6 +19,8 @@
  // along with this code. If not, see <http://www.gnu.org/licenses/>.
  //----------------------------------------------------------------------
@@ -739,10 +739,10 @@ index 6ab411f..f25638c 100644
  #include "SoftKiller.hh"
  #include <sstream>
  
-diff --git VariableR/VariableRPlugin.cc VariableR/VariableRPlugin.cc
+diff --git a/VariableR/VariableRPlugin.cc b/VariableR/VariableRPlugin.cc
 index 7de47ca..b34db47 100644
---- VariableR/VariableRPlugin.cc
-+++ VariableR/VariableRPlugin.cc
+--- a/VariableR/VariableRPlugin.cc
++++ b/VariableR/VariableRPlugin.cc
 @@ -44,9 +44,9 @@ namespace contrib {
  
    //----------------------------------------------------------------------
@@ -765,10 +765,10 @@ index 7de47ca..b34db47 100644
    
    // Constructor that sets VR algorithm parameters
    //  - rho         mass scale for effective radius (i.e. R ~ rho/pT)
-diff --git VariableR/VariableRPlugin.hh VariableR/VariableRPlugin.hh
+diff --git a/VariableR/VariableRPlugin.hh b/VariableR/VariableRPlugin.hh
 index ee88f13..bcc2545 100644
---- VariableR/VariableRPlugin.hh
-+++ VariableR/VariableRPlugin.hh
+--- a/VariableR/VariableRPlugin.hh
++++ b/VariableR/VariableRPlugin.hh
 @@ -25,6 +25,8 @@
  #ifndef __FASTJET_CONTRIB_VARIABLERPLUGIN_HH__
  #define __FASTJET_CONTRIB_VARIABLERPLUGIN_HH__
