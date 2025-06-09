@@ -12,12 +12,11 @@ source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-${{ version }}.tar.gz
   sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
-    # FIXME: Avoid install_name_tool 'larger updated load commands do not fit' error
-    - if: osx and arm64
-      then: use-headerpad_max_install_names-linker-option.patch
+    - 0001-top-level-only-cmake-scripts.patch
+    - 0002-required-source-changes-for-windows-build.patch
 
 build:
-  number: 1
+  number: 2
   skip: win
 
 outputs:
@@ -26,41 +25,17 @@ outputs:
 
     build:
       script:
-        # Get an updated config.sub and config.guess
-        - cp $BUILD_PREFIX/share/gnuconfig/config.* .
-        - ./configure --help
-        - ./configure --list
-        - ./configure --fastjet-config=$(command -v fastjet-config) --prefix=$PREFIX CXX=$CXX
-        - make --jobs="${CPU_COUNT}"
-        - make fragile-shared --jobs="${CPU_COUNT}"
-        - if: build_platform == target_platform
-          then: make check --jobs="${CPU_COUNT}"
-        - make install
-        - make fragile-shared-install
-        # Remove the static libraries that got installed
-        - rm $PREFIX/lib/libCMPPlugin.a
-        - rm $PREFIX/lib/libCentauro.a
-        - rm $PREFIX/lib/libClusteringVetoPlugin.a
-        - rm $PREFIX/lib/libConstituentSubtractor.a
-        - rm $PREFIX/lib/libEnergyCorrelator.a
-        - rm $PREFIX/lib/libFlavorCone.a
-        - rm $PREFIX/lib/libGHSAlgo.a
-        - rm $PREFIX/lib/libGenericSubtractor.a
-        - rm $PREFIX/lib/libIFNPlugin.a
-        - rm $PREFIX/lib/libJetCleanser.a
-        - rm $PREFIX/lib/libJetFFMoments.a
-        - rm $PREFIX/lib/libJetsWithoutJets.a
-        - rm $PREFIX/lib/libLundPlane.a
-        - rm $PREFIX/lib/libNsubjettiness.a
-        - rm $PREFIX/lib/libQCDAwarePlugin.a
-        - rm $PREFIX/lib/libRecursiveTools.a
-        - rm $PREFIX/lib/libSDFPlugin.a
-        - rm $PREFIX/lib/libScJet.a
-        - rm $PREFIX/lib/libSignalFreeBackgroundEstimator.a
-        - rm $PREFIX/lib/libSoftKiller.a
-        - rm $PREFIX/lib/libSubjetCounting.a
-        - rm $PREFIX/lib/libValenciaPlugin.a
-        - rm $PREFIX/lib/libVariableR.a
+        - cmake -S . -B build -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON
+        - if: unix
+          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
+        - if: win
+          then: cmake %CMAKE_ARGS% -S . -B build
+        - cmake -LH build
+        - if: unix
+          then: cmake --build build --parallel="${CPU_COUNT}"
+        - if: win
+          then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+        - cmake --install build
 
     requirements:
       run_exports:
@@ -68,17 +43,75 @@ outputs:
       build:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
-        - automake
-        - libtool
-        - make
-        - pkg-config
-        - gnuconfig
+        - cmake
+        - if: unix
+          then: make
+        - if: build_platform != target_platform
+          then:
+            - fastjet-cxx
       host:
         - fastjet-cxx
       run:
         - fastjet-cxx
 
     tests:
+      - package_contents:
+          lib:
+            - fastjetcontribfragile
+          include:
+            - fastjet/contrib/AxesDefinition.hh
+            - fastjet/contrib/BottomUpSoftDrop.hh
+            - fastjet/contrib/CMPPlugin.hh
+            - fastjet/contrib/Centauro.hh
+            - fastjet/contrib/ClusteringVetoPlugin.hh
+            - fastjet/contrib/ConstituentSubtractor.hh
+            - fastjet/contrib/DistanceMeasure.hh
+            - fastjet/contrib/EnergyCorrelator.hh
+            - fastjet/contrib/EventStorage.hh
+            - fastjet/contrib/ExtraRecombiners.hh
+            - fastjet/contrib/FlavInfo.hh
+            - fastjet/contrib/FlavNeutraliser.hh
+            - fastjet/contrib/FlavorCone.hh
+            - fastjet/contrib/GHSAlgo.hh
+            - fastjet/contrib/GenericSubtractor.hh
+            - fastjet/contrib/IFNPlugin.hh
+            - fastjet/contrib/IteratedSoftDrop.hh
+            - fastjet/contrib/IterativeConstituentSubtractor.hh
+            - fastjet/contrib/JetCleanser.hh
+            - fastjet/contrib/JetFFMoments.hh
+            - fastjet/contrib/JetsWithoutJets.hh
+            - fastjet/contrib/KTClusCXX.hh
+            - fastjet/contrib/LundEEHelpers.hh
+            - fastjet/contrib/LundGenerator.hh
+            - fastjet/contrib/LundJSON.hh
+            - fastjet/contrib/LundPlane.hh
+            - fastjet/contrib/LundWithSecondary.hh
+            - fastjet/contrib/MassFlav.hh
+            - fastjet/contrib/MeasureDefinition.hh
+            - fastjet/contrib/ModifiedMassDropTagger.hh
+            - fastjet/contrib/Njettiness.hh
+            - fastjet/contrib/NjettinessPlugin.hh
+            - fastjet/contrib/Nsubjettiness.hh
+            - fastjet/contrib/QCDAwarePlugin.hh
+            - fastjet/contrib/Recluster.hh
+            - fastjet/contrib/RecursiveLundEEGenerator.hh
+            - fastjet/contrib/RecursiveSoftDrop.hh
+            - fastjet/contrib/RecursiveSymmetryCutBase.hh
+            - fastjet/contrib/RescalingClasses.hh
+            - fastjet/contrib/SDFPlugin.hh
+            - fastjet/contrib/ScJet.hh
+            - fastjet/contrib/SecondaryLund.hh
+            - fastjet/contrib/ShapeWithComponents.hh
+            - fastjet/contrib/ShapeWithPartition.hh
+            - fastjet/contrib/SignalFreeBackgroundEstimator.hh
+            - fastjet/contrib/SoftDrop.hh
+            - fastjet/contrib/SoftKiller.hh
+            - fastjet/contrib/SubjetCounting.hh
+            - fastjet/contrib/TauComponents.hh
+            - fastjet/contrib/ValenciaPlugin.hh
+            - fastjet/contrib/VariableR.hh
+            - fastjet/contrib/VariableRPlugin.hh
+            - fastjet/contrib/XConePlugin.hh
       - script: run_test_shared.sh
         requirements:
           run:
@@ -94,31 +127,113 @@ outputs:
 
     build:
       script:
-        # Get an updated config.sub and config.guess
-        - cp $BUILD_PREFIX/share/gnuconfig/config.* .
-        - ./configure --help
-        - ./configure --list
-        - ./configure --fastjet-config=$(command -v fastjet-config) --prefix=$PREFIX CXX=$CXX
-        - make --jobs="${CPU_COUNT}"
-        - if: build_platform == target_platform
-          then: make check --jobs="${CPU_COUNT}"
-        - make install
+        - cmake -S . -B build -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF
+        - if: unix
+          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
+        - if: win
+          then: cmake %CMAKE_ARGS% -S . -B build
+        - cmake -LH build
+        - if: unix
+          then: cmake --build build --parallel="${CPU_COUNT}"
+        - if: win
+          then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+        - cmake --install build
 
     requirements:
       build:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
-        - automake
-        - libtool
-        - make
-        - pkg-config
-        - gnuconfig
+        - cmake
+        - if: unix
+          then: make
+        - if: build_platform != target_platform
+          then:
+            - fastjet-cxx
       host:
         - fastjet-cxx
       run:
         - fastjet-cxx
 
     tests:
+      - package_contents:
+          lib:
+            - CMPPlugin
+            - Centauro
+            - ClusteringVetoPlugin
+            - ConstituentSubtractor
+            - EnergyCorrelator
+            - FlavorCone
+            - GHSAlgo
+            - GenericSubtractor
+            - IFNPlugin
+            - JetCleanser
+            - JetFFMoments
+            - JetsWithoutJets
+            - LundPlane
+            - Nsubjettiness
+            - QCDAwarePlugin
+            - RecursiveTools
+            - SDFPlugin
+            - ScJet
+            - SignalFreeBackgroundEstimator
+            - SoftKiller
+            - SubjetCounting
+            - ValenciaPlugin
+            - VariableR
+          include:
+            - fastjet/contrib/AxesDefinition.hh
+            - fastjet/contrib/BottomUpSoftDrop.hh
+            - fastjet/contrib/CMPPlugin.hh
+            - fastjet/contrib/Centauro.hh
+            - fastjet/contrib/ClusteringVetoPlugin.hh
+            - fastjet/contrib/ConstituentSubtractor.hh
+            - fastjet/contrib/DistanceMeasure.hh
+            - fastjet/contrib/EnergyCorrelator.hh
+            - fastjet/contrib/EventStorage.hh
+            - fastjet/contrib/ExtraRecombiners.hh
+            - fastjet/contrib/FlavInfo.hh
+            - fastjet/contrib/FlavNeutraliser.hh
+            - fastjet/contrib/FlavorCone.hh
+            - fastjet/contrib/GHSAlgo.hh
+            - fastjet/contrib/GenericSubtractor.hh
+            - fastjet/contrib/IFNPlugin.hh
+            - fastjet/contrib/IteratedSoftDrop.hh
+            - fastjet/contrib/IterativeConstituentSubtractor.hh
+            - fastjet/contrib/JetCleanser.hh
+            - fastjet/contrib/JetFFMoments.hh
+            - fastjet/contrib/JetsWithoutJets.hh
+            - fastjet/contrib/KTClusCXX.hh
+            - fastjet/contrib/LundEEHelpers.hh
+            - fastjet/contrib/LundGenerator.hh
+            - fastjet/contrib/LundJSON.hh
+            - fastjet/contrib/LundPlane.hh
+            - fastjet/contrib/LundWithSecondary.hh
+            - fastjet/contrib/MassFlav.hh
+            - fastjet/contrib/MeasureDefinition.hh
+            - fastjet/contrib/ModifiedMassDropTagger.hh
+            - fastjet/contrib/Njettiness.hh
+            - fastjet/contrib/NjettinessPlugin.hh
+            - fastjet/contrib/Nsubjettiness.hh
+            - fastjet/contrib/QCDAwarePlugin.hh
+            - fastjet/contrib/Recluster.hh
+            - fastjet/contrib/RecursiveLundEEGenerator.hh
+            - fastjet/contrib/RecursiveSoftDrop.hh
+            - fastjet/contrib/RecursiveSymmetryCutBase.hh
+            - fastjet/contrib/RescalingClasses.hh
+            - fastjet/contrib/SDFPlugin.hh
+            - fastjet/contrib/ScJet.hh
+            - fastjet/contrib/SecondaryLund.hh
+            - fastjet/contrib/ShapeWithComponents.hh
+            - fastjet/contrib/ShapeWithPartition.hh
+            - fastjet/contrib/SignalFreeBackgroundEstimator.hh
+            - fastjet/contrib/SoftDrop.hh
+            - fastjet/contrib/SoftKiller.hh
+            - fastjet/contrib/SubjetCounting.hh
+            - fastjet/contrib/TauComponents.hh
+            - fastjet/contrib/ValenciaPlugin.hh
+            - fastjet/contrib/VariableR.hh
+            - fastjet/contrib/VariableRPlugin.hh
+            - fastjet/contrib/XConePlugin.hh
       - script: run_test_static.sh
         requirements:
           run:
