@@ -16,7 +16,7 @@ source:
     # - 0002-required-source-changes-for-windows-build.patch
 
 build:
-  number: 2
+  number: 3
   skip: win
 
 outputs:
