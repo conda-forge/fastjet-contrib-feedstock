@@ -25,7 +25,7 @@ outputs:
 
     build:
       script:
-        - cmake -S . -B build -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON
+        - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON
         - if: unix
           then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
         - if: win
@@ -128,7 +128,7 @@ outputs:
 
     build:
       script:
-        - cmake -S . -B build -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF
+        - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF
         - if: unix
           then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
         - if: win
