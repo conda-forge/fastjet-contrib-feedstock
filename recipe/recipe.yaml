@@ -128,9 +128,9 @@ outputs:
     build:
       script:
         - if: unix
-          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build 
+          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build 
         - if: win
-          then: cmake %CMAKE_ARGS% -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
+          then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
         - cmake -LH build
         - if: unix
           then: cmake --build build --parallel="${CPU_COUNT}"
