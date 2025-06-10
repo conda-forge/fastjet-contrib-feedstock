@@ -13,7 +13,7 @@ source:
   sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
     - 0001-top-level-only-cmake-scripts.patch
-    - 0002-required-source-changes-for-windows-build.patch
+    # - 0002-required-source-changes-for-windows-build.patch
 
 build:
   number: 2
