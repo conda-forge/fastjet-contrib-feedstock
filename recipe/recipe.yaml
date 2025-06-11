@@ -16,7 +16,7 @@ source:
     # - 0002-required-source-changes-for-windows-build.patch
 
 build:
-  number: 2
+  number: 3
   skip: win
 
 outputs:
@@ -25,11 +25,10 @@ outputs:
 
     build:
       script:
-        - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON
         - if: unix
-          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
+          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build 
         - if: win
-          then: cmake %CMAKE_ARGS% -S . -B build
+          then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
         - cmake -LH build
         - if: unix
           then: cmake --build build --parallel="${CPU_COUNT}"
@@ -124,15 +123,14 @@ outputs:
 
 
   - package:
-      name: ${{ name }}-static
+      name: ${{ name }}-split
 
     build:
       script:
-        - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF
         - if: unix
-          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -S . -B build
+          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build 
         - if: win
-          then: cmake %CMAKE_ARGS% -S . -B build
+          then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
         - cmake -LH build
         - if: unix
           then: cmake --build build --parallel="${CPU_COUNT}"

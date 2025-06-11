@@ -82,7 +82,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib--static-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib-static.svg)](https://anaconda.org/conda-forge/fastjet-contrib-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib-static.svg)](https://anaconda.org/conda-forge/fastjet-contrib-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib-static.svg)](https://anaconda.org/conda-forge/fastjet-contrib-static) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib--split-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) |
 
 Installing fastjet-contrib
 ==========================
@@ -94,16 +94,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `fastjet-contrib, fastjet-contrib-static` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `fastjet-contrib, fastjet-contrib-split` can be installed with `conda`:
 
 ```
-conda install fastjet-contrib fastjet-contrib-static
+conda install fastjet-contrib fastjet-contrib-split
 ```
 
 or with `mamba`:
 
 ```
-mamba install fastjet-contrib fastjet-contrib-static
+mamba install fastjet-contrib fastjet-contrib-split
 ```
 
 It is possible to list all of the versions of `fastjet-contrib` available on your platform with `conda`:
