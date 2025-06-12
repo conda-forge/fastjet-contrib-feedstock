@@ -60,6 +60,7 @@ outputs:
       - package_contents:
           lib:
             - fastjetcontribfragile
+            - cmake/fastjetcontrib/fastjetcontrib*.cmake
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -183,6 +184,7 @@ outputs:
             - SubjetCounting
             - ValenciaPlugin
             - VariableR
+            - cmake/fastjetcontrib/fastjetcontrib*.cmake
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
