@@ -58,12 +58,10 @@ outputs:
 
     tests:
       - package_contents:
+          files:
+            - lib/cmake/fastjetcontrib/*.cmake
           lib:
             - fastjetcontribfragile
-            - cmake/fastjetcontrib/fastjetcontribConfig.cmake
-            - cmake/fastjetcontrib/fastjetcontribConfigVersion.cmake
-            - cmake/fastjetcontrib/fastjetcontribTargets-release.cmake
-            - cmake/fastjetcontrib/fastjetcontribTargets.cmake
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -163,6 +161,8 @@ outputs:
 
     tests:
       - package_contents:
+          files:
+            - lib/cmake/fastjetcontrib/*.cmake
           lib:
             - CMPPlugin
             - Centauro
@@ -187,10 +187,6 @@ outputs:
             - SubjetCounting
             - ValenciaPlugin
             - VariableR
-            - cmake/fastjetcontrib/fastjetcontribConfig.cmake
-            - cmake/fastjetcontrib/fastjetcontribConfigVersion.cmake
-            - cmake/fastjetcontrib/fastjetcontribTargets-release.cmake
-            - cmake/fastjetcontrib/fastjetcontribTargets.cmake
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
