@@ -59,7 +59,7 @@ outputs:
     tests:
       - package_contents:
           files:
-            - lib/cmake/fastjetcontrib/*.cmake
+            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             - fastjetcontribfragile
           include:
@@ -162,7 +162,7 @@ outputs:
     tests:
       - package_contents:
           files:
-            - lib/cmake/fastjetcontrib/*.cmake
+            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             - CMPPlugin
             - Centauro
