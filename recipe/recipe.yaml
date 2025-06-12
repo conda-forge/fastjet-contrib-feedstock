@@ -252,7 +252,11 @@ about:
   summary: 'FastJet Contrib: 3rd party extensions of FastJet'
   description: |
     The fastjet-contrib space is intended to provide a common location for
-    access to 3rd party extensions of FastJet.
+    access to 3rd party extensions of FastJet. The `fastjet-contrib` output
+    provides a single merged shared object library that contains all contribs,
+    while the `fastjet-contrib-split` output provides individual shared object
+    libraries for each contrib. Please choose the output appropriate to your
+    use case and development patterns.
   license: GPL-2.0-or-later
   license_family: GPL
   license_file: COPYING
