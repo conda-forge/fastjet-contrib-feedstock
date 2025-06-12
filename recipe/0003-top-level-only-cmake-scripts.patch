@@ -1,7 +1,7 @@
 From fb98d019ce5bc96699ef25cbf08a7b5dcfb9a2b6 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
 Date: Mon, 9 Jun 2025 18:21:34 -0500
-Subject: [PATCH 1/2] top-level-only cmake scripts
+Subject: [PATCH 3/4] top-level-only cmake scripts
 
 ---
  CMakeLists.txt               | 229 +++++++++++++++++++++++++++++++++++
