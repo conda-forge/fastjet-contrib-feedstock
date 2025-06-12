@@ -12,11 +12,13 @@ source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-${{ version }}.tar.gz
   sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
-    - 0001-top-level-only-cmake-scripts.patch
-    # - 0002-required-source-changes-for-windows-build.patch
+    - 0001-port-the-CMS-additions.patch
+    - 0002-drop-as-needed-flag-to-avoid-link-errors-on-missing-.patch
+    - 0003-top-level-only-cmake-scripts.patch
+    - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 4
+  number: 5
   skip: win
 
 outputs:
