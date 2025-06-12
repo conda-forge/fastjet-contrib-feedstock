@@ -61,6 +61,7 @@ outputs:
           lib:
             - fastjetcontribfragile
           include:
+            - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
             - fastjet/contrib/CMPPlugin.hh
@@ -183,6 +184,7 @@ outputs:
             - ValenciaPlugin
             - VariableR
           include:
+            - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
             - fastjet/contrib/CMPPlugin.hh
