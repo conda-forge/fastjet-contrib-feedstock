@@ -1,0 +1,26 @@
+From 079bab22b9d4852c6a2f868b86a559f3f871f648 Mon Sep 17 00:00:00 2001
+From: Shahzad Malik Muzaffar <shahzad.malik.muzaffar@cern.ch>
+Date: Thu, 1 May 2025 12:29:41 +0200
+Subject: [PATCH 2/4] drop as-needed flag to avoid link errors on missing
+ typeinfo for fastjet::JetMedianBackgroundEstimator
+
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index d4b7c2a..c5ec84e 100755
+--- a/configure
++++ b/configure
+@@ -357,7 +357,7 @@ else
+     # the following more elaborate set of options requested by Alexander Puck Neuwirth
+     # for compatibility with gentoo, cf. https://github.com/fjcontrib/fjcontrib/issues/4
+     # plus https://github.com/fjcontrib/fjcontrib/issues/5
+-    dynlibopt="-shared -Wl,--as-needed -Wl,-soname,libfastjetcontribfragile.so"
++    dynlibopt="-shared -Wl,-soname,libfastjetcontribfragile.so"
+     dynlibext="so"
+     dynlibpostproc="" # some dummy command needed
+ fi
+-- 
+2.39.5 (Apple Git-154)
+

@@ -1,0 +1,83 @@
+From 9bd5b79e0667b6f9769d1c7755320c55fc0e4595 Mon Sep 17 00:00:00 2001
+From: Fabio Cossutti <fabio.cossutti@ts.infn.it>
+Date: Fri, 9 Mar 2018 18:44:52 +0100
+Subject: [PATCH 1/4] port the CMS additions
+
+---
+ JetCleanser/JetCleanser.cc                                  | 3 +++
+ JetCleanser/JetCleanser.hh                                  | 6 ++++++
+ RecursiveTools/RecursiveSymmetryCutBase.cc                  | 2 +-
+ .../include/fastjet/contrib/RecursiveSymmetryCutBase.hh     | 4 +++-
+ 4 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/JetCleanser/JetCleanser.cc b/JetCleanser/JetCleanser.cc
+index 20f39c3..cacac3f 100644
+--- a/JetCleanser/JetCleanser.cc
++++ b/JetCleanser/JetCleanser.cc
+@@ -30,7 +30,10 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
+ namespace contrib{
+ 
+   // Modification to satisfy C++11 (thanks to Gavin Salam)
++#if __cplusplus >= 201103L
++#else
+   const double JetCleanser::jc_zero = 1.0e-6;
++#endif 
+ 
+   /////////////////////////////
+   // constructor
+diff --git a/JetCleanser/JetCleanser.hh b/JetCleanser/JetCleanser.hh
+index ac5f3cd..2c8cc5f 100644
+--- a/JetCleanser/JetCleanser.hh
++++ b/JetCleanser/JetCleanser.hh
+@@ -105,7 +105,13 @@ public:
+ private:
+   // Modification to satisfy C++11 (thanks to Gavin Salam)
+   //static const double jc_zero = 1.0e-6;
++//CMS change:
++// Change not endorsed by fastjet collaboration
++#if __cplusplus >= 201103L
++  static constexpr double jc_zero = 1.0e-6;
++#else
+   static const double jc_zero;
++#endif 
+ 
+   double _rsub;
+   double _fcut;
+diff --git a/RecursiveTools/RecursiveSymmetryCutBase.cc b/RecursiveTools/RecursiveSymmetryCutBase.cc
+index 4da7c84..b90b613 100644
+--- a/RecursiveTools/RecursiveSymmetryCutBase.cc
++++ b/RecursiveTools/RecursiveSymmetryCutBase.cc
+@@ -37,7 +37,7 @@ LimitedWarning RecursiveSymmetryCutBase::_mu2_gt1_warning;
+ //LimitedWarning RecursiveSymmetryCutBase::_nonca_warning;
+ LimitedWarning RecursiveSymmetryCutBase::_explicit_ghost_warning;
+ 
+-bool RecursiveSymmetryCutBase::_verbose = false;
++std::atomic<bool> RecursiveSymmetryCutBase::_verbose {false};
+ 
+ //----------------------------------------------------------------------
+ PseudoJet RecursiveSymmetryCutBase::result(const PseudoJet & jet) const {
+diff --git a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
+index 10073a5..e27e7bc 100644
+--- a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
++++ b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
+@@ -37,6 +37,8 @@
+ #else
+ #include "Recluster.hh"
+ #endif
++#include <atomic>
++
+ 
+ /** \mainpage RecursiveTools contrib 
+ 
+@@ -215,7 +217,7 @@ public:
+   class StructureType;
+ 
+   /// for testing 
+-  static bool _verbose;
++  static std::atomic<bool> _verbose;
+ 
+ protected:
+   // the methods below have to be defined by deerived classes
+-- 
+2.39.5 (Apple Git-154)
+

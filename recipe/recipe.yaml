@@ -12,11 +12,13 @@ source:
   url: https://fastjet.hepforge.org/contrib/downloads/fjcontrib-${{ version }}.tar.gz
   sha256: dbe8ad2199f72d64dd29f6218f6f53efddc8fb3e5dd9c5d10f2fd1e23d6e44f6
   patches:
-    - 0001-top-level-only-cmake-scripts.patch
-    # - 0002-required-source-changes-for-windows-build.patch
+    - 0001-port-the-CMS-additions.patch
+    - 0002-drop-as-needed-flag-to-avoid-link-errors-on-missing-.patch
+    - 0003-top-level-only-cmake-scripts.patch
+    - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 4
+  number: 5
   skip: win
 
 outputs:
@@ -56,9 +58,12 @@ outputs:
 
     tests:
       - package_contents:
+          files:
+            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             - fastjetcontribfragile
           include:
+            - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
             - fastjet/contrib/CMPPlugin.hh
@@ -156,6 +161,8 @@ outputs:
 
     tests:
       - package_contents:
+          files:
+            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             - CMPPlugin
             - Centauro
@@ -181,6 +188,7 @@ outputs:
             - ValenciaPlugin
             - VariableR
           include:
+            - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
             - fastjet/contrib/CMPPlugin.hh
@@ -248,7 +256,11 @@ about:
   summary: 'FastJet Contrib: 3rd party extensions of FastJet'
   description: |
     The fastjet-contrib space is intended to provide a common location for
-    access to 3rd party extensions of FastJet.
+    access to 3rd party extensions of FastJet. The `fastjet-contrib` output
+    provides a single merged shared object library that contains all contribs,
+    while the `fastjet-contrib-split` output provides individual shared object
+    libraries for each contrib. Please choose the output appropriate to your
+    use case and development patterns.
   license: GPL-2.0-or-later
   license_family: GPL
   license_file: COPYING

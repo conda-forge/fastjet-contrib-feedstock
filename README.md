@@ -14,7 +14,11 @@ Development: https://github.com/fjcontrib/fjcontrib
 Documentation: https://fastjet.hepforge.org/contrib/
 
 The fastjet-contrib space is intended to provide a common location for
-access to 3rd party extensions of FastJet.
+access to 3rd party extensions of FastJet. The `fastjet-contrib` output
+provides a single merged shared object library that contains all contribs,
+while the `fastjet-contrib-split` output provides individual shared object
+libraries for each contrib. Please choose the output appropriate to your
+use case and development patterns.
 
 Current build status
 ====================
