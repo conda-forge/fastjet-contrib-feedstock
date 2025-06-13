@@ -16,7 +16,7 @@ source:
     # - 0002-required-source-changes-for-windows-build.patch
 
 build:
-  number: 4
+  number: 5
   skip: win
 
 outputs:
@@ -57,7 +57,32 @@ outputs:
     tests:
       - package_contents:
           lib:
-            - fastjetcontribfragile
+            exists:
+              - fastjetcontribfragile
+            not_exists:
+              - CMPPlugin
+              - Centauro
+              - ClusteringVetoPlugin
+              - ConstituentSubtractor
+              - EnergyCorrelator
+              - FlavorCone
+              - GHSAlgo
+              - GenericSubtractor
+              - IFNPlugin
+              - JetCleanser
+              - JetFFMoments
+              - JetsWithoutJets
+              - LundPlane
+              - Nsubjettiness
+              - QCDAwarePlugin
+              - RecursiveTools
+              - SDFPlugin
+              - ScJet
+              - SignalFreeBackgroundEstimator
+              - SoftKiller
+              - SubjetCounting
+              - ValenciaPlugin
+              - VariableR
           include:
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
@@ -157,29 +182,32 @@ outputs:
     tests:
       - package_contents:
           lib:
-            - CMPPlugin
-            - Centauro
-            - ClusteringVetoPlugin
-            - ConstituentSubtractor
-            - EnergyCorrelator
-            - FlavorCone
-            - GHSAlgo
-            - GenericSubtractor
-            - IFNPlugin
-            - JetCleanser
-            - JetFFMoments
-            - JetsWithoutJets
-            - LundPlane
-            - Nsubjettiness
-            - QCDAwarePlugin
-            - RecursiveTools
-            - SDFPlugin
-            - ScJet
-            - SignalFreeBackgroundEstimator
-            - SoftKiller
-            - SubjetCounting
-            - ValenciaPlugin
-            - VariableR
+            exists:
+              - CMPPlugin
+              - Centauro
+              - ClusteringVetoPlugin
+              - ConstituentSubtractor
+              - EnergyCorrelator
+              - FlavorCone
+              - GHSAlgo
+              - GenericSubtractor
+              - IFNPlugin
+              - JetCleanser
+              - JetFFMoments
+              - JetsWithoutJets
+              - LundPlane
+              - Nsubjettiness
+              - QCDAwarePlugin
+              - RecursiveTools
+              - SDFPlugin
+              - ScJet
+              - SignalFreeBackgroundEstimator
+              - SoftKiller
+              - SubjetCounting
+              - ValenciaPlugin
+              - VariableR
+            not_exists:
+              - fastjetcontribfragile
           include:
             - fastjet/contrib/AxesDefinition.hh
             - fastjet/contrib/BottomUpSoftDrop.hh
