@@ -61,7 +61,32 @@ outputs:
           files:
             - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
-            - fastjetcontribfragile
+            exists:
+              - fastjetcontribfragile
+            not_exists:
+              - CMPPlugin
+              - Centauro
+              - ClusteringVetoPlugin
+              - ConstituentSubtractor
+              - EnergyCorrelator
+              - FlavorCone
+              - GHSAlgo
+              - GenericSubtractor
+              - IFNPlugin
+              - JetCleanser
+              - JetFFMoments
+              - JetsWithoutJets
+              - LundPlane
+              - Nsubjettiness
+              - QCDAwarePlugin
+              - RecursiveTools
+              - SDFPlugin
+              - ScJet
+              - SignalFreeBackgroundEstimator
+              - SoftKiller
+              - SubjetCounting
+              - ValenciaPlugin
+              - VariableR
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -164,29 +189,32 @@ outputs:
           files:
             - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
-            - CMPPlugin
-            - Centauro
-            - ClusteringVetoPlugin
-            - ConstituentSubtractor
-            - EnergyCorrelator
-            - FlavorCone
-            - GHSAlgo
-            - GenericSubtractor
-            - IFNPlugin
-            - JetCleanser
-            - JetFFMoments
-            - JetsWithoutJets
-            - LundPlane
-            - Nsubjettiness
-            - QCDAwarePlugin
-            - RecursiveTools
-            - SDFPlugin
-            - ScJet
-            - SignalFreeBackgroundEstimator
-            - SoftKiller
-            - SubjetCounting
-            - ValenciaPlugin
-            - VariableR
+            exists:
+              - CMPPlugin
+              - Centauro
+              - ClusteringVetoPlugin
+              - ConstituentSubtractor
+              - EnergyCorrelator
+              - FlavorCone
+              - GHSAlgo
+              - GenericSubtractor
+              - IFNPlugin
+              - JetCleanser
+              - JetFFMoments
+              - JetsWithoutJets
+              - LundPlane
+              - Nsubjettiness
+              - QCDAwarePlugin
+              - RecursiveTools
+              - SDFPlugin
+              - ScJet
+              - SignalFreeBackgroundEstimator
+              - SoftKiller
+              - SubjetCounting
+              - ValenciaPlugin
+              - VariableR
+            not_exists:
+              - fastjetcontribfragile
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
