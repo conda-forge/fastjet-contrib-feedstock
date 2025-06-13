@@ -18,7 +18,11 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 5
+  number: 6
+  variant:
+    use_keys:
+      - x86_64_microarch_level
+    down_prioritize_variant: ${{ 0 if x86_64_microarch_level == 1 else 1 }}
   skip: win
 
 outputs:
@@ -42,6 +46,8 @@ outputs:
       run_exports:
         - ${{ pin_subpackage('fastjet-contrib', upper_bound='x.x') }}
       build:
+        - if: unix and x86_64
+          then: x86_64-microarch-level ==${{ x86_64_microarch_level }}
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
@@ -170,6 +176,8 @@ outputs:
 
     requirements:
       build:
+        - if: unix and x86_64
+          then: x86_64-microarch-level ==${{ x86_64_microarch_level }}
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
