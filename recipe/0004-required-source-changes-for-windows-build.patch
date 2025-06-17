@@ -1,6 +1,6 @@
-From dce6e59dd30e0323c0477993683344ab358e7d65 Mon Sep 17 00:00:00 2001
+From f1cd132aae42f4c30761697f32d81a734fc3de98 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Tue, 17 Jun 2025 12:43:16 -0500
+Date: Tue, 17 Jun 2025 13:54:13 -0500
 Subject: [PATCH 4/4] required source changes for windows build
 
 ---
