@@ -1,6 +1,6 @@
-From d665a61c460daf21713129fbdd17d85a8da31af3 Mon Sep 17 00:00:00 2001
+From e75f1c06f6fb02a690630c5386c1cfa7a4615843 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Tue, 17 Jun 2025 14:49:43 -0500
+Date: Tue, 17 Jun 2025 15:55:00 -0500
 Subject: [PATCH 4/4] required source changes for windows build
 
 ---
@@ -801,5 +801,5 @@ index ee88f13..5ae2fbb 100644
      // helper function to decide what strategy is best
      //
 -- 
-2.49.0
+2.39.5 (Apple Git-154)
 

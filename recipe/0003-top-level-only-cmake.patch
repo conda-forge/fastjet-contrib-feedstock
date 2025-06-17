@@ -1,6 +1,6 @@
-From 549490bf993c895ea363fd9c5c4a77f88650235b Mon Sep 17 00:00:00 2001
+From ec3c14eb8641233fce259dca27c653d1da0c0ad1 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Tue, 17 Jun 2025 14:46:55 -0500
+Date: Tue, 17 Jun 2025 15:53:58 -0500
 Subject: [PATCH 3/4] top-level-only cmake
 
 ---
@@ -22,7 +22,7 @@ Subject: [PATCH 3/4] top-level-only cmake
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..c98ec23
+index 0000000..1861b3e
 --- /dev/null
 +++ b/CMakeLists.txt
 @@ -0,0 +1,215 @@
@@ -35,13 +35,13 @@ index 0000000..c98ec23
 +#set(PROJECT_VERSION_PRERELEASE "")
 +set(PROJECT_VERSION_PRERELEASE "-devel")
 +
-+#if(MSVC)
-+#  execute_process(COMMAND 
-+#                    git apply --whitespace=fix 0001-required-source-changes-for-windows-build.patch
-+#                  WORKING_DIRECTORY
-+#                    ${CMAKE_CURRENT_SOURCE_DIR}
-+#                 )
-+#endif()
++if(MSVC)
++  execute_process(COMMAND 
++                    git apply --whitespace=fix 0001-required-source-changes-for-windows-build.patch
++                  WORKING_DIRECTORY
++                    ${CMAKE_CURRENT_SOURCE_DIR}
++                 )
++endif()
 +
 +#----------------------------------------------------------------------
 +# version information
@@ -98,11 +98,11 @@ index 0000000..c98ec23
 +endif()
 +
 +# automatically determine the list of contribs, as done in configure
-+file(GLOB MAYBE_CONTRIB_DIRS LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
++file(GLOB MAYBE_CONTRIB_DIRS LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/*")
 +foreach(MAYBE_CONTRIB_DIR ${MAYBE_CONTRIB_DIRS})
-+    if(IS_DIRECTORY ${MAYBE_CONTRIB_DIR})
-+        if(EXISTS ${MAYBE_CONTRIB_DIR}/VERSION
-+             OR EXISTS ${MAYBE_CONTRIB_DIR}/FJCONTRIB.cfg
++    if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${MAYBE_CONTRIB_DIR})
++        if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MAYBE_CONTRIB_DIR}/VERSION
++             OR EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${MAYBE_CONTRIB_DIR}/FJCONTRIB.cfg
 +             AND NOT ${MAYBE_CONTRIB_DIR} STREQUAL "Template"
 +          )
 +          list(APPEND fjcontrib_DIRNAMES ${MAYBE_CONTRIB_DIR})
@@ -123,12 +123,12 @@ index 0000000..c98ec23
 +  string(TOUPPER ${FJCONTRIB_NAME} FJCONTRIB_NAME_UPPER)
 +  string(TOLOWER ${FJCONTRIB_NAME} FJCONTRIB_NAME_LOWER)
 +  if (FASTJETCONTRIB_ENABLE_${FJCONTRIB_NAME_UPPER})
-+    configure_file(scripts/cmake-templates/defines.h.in ${FJCONTRIB_NAME}/include/${FJCONTRIB_NAME_LOWER}_defines.h)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake-templates/defines.h.in ${CMAKE_CURRENT_BINARY_DIR}/${FJCONTRIB_NAME}/include/${FJCONTRIB_NAME_LOWER}_defines.h)
 +
 +    set(SRCLINE)
 +    set(INCLLINE)
 +    set(DEPLINE)
-+    file(STRINGS ${FJCONTRIB_NAME}/Makefile FJCONTRIB_MAKEFILE)
++    file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/Makefile FJCONTRIB_MAKEFILE)
 +    while(FJCONTRIB_MAKEFILE)
 +      list(POP_FRONT FJCONTRIB_MAKEFILE MAKEFILE_LINE)
 +      #message("${MAKEFILE_LINE}")
@@ -148,11 +148,11 @@ index 0000000..c98ec23
 +    endwhile()
 +
 +    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include)
-+      configure_file(scripts/cmake-templates/incfastjet_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/CMakeLists.txt COPYONLY)
-+      configure_file(scripts/cmake-templates/inccontrib_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/fastjet/CMakeLists.txt COPYONLY)
-+      configure_file(scripts/cmake-templates/incdir_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/fastjet/contrib/CMakeLists.txt)
++      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake-templates/incfastjet_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/CMakeLists.txt COPYONLY)
++      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake-templates/inccontrib_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/fastjet/CMakeLists.txt COPYONLY)
++      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake-templates/incdir_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/include/fastjet/contrib/CMakeLists.txt)
 +    endif()
-+    configure_file(scripts/cmake-templates/contrib_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/CMakeLists.txt)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake-templates/contrib_CMakeLists.txt.in ${CMAKE_CURRENT_SOURCE_DIR}/${FJCONTRIB_NAME}/CMakeLists.txt)
 +
 +    add_subdirectory(${FJCONTRIB_NAME})
 +    if (TARGET ${FJCONTRIB_NAME})
@@ -372,5 +372,5 @@ index 0000000..e05498f
 +add_subdirectory(fastjet)
 +
 -- 
-2.49.0
+2.39.5 (Apple Git-154)
 
