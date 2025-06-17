@@ -1,6 +1,6 @@
-From 05c71562158c971febb8d7d2430d8be60385a943 Mon Sep 17 00:00:00 2001
+From dce6e59dd30e0323c0477993683344ab358e7d65 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Mon, 9 Jun 2025 18:23:37 -0500
+Date: Tue, 17 Jun 2025 12:43:16 -0500
 Subject: [PATCH 4/4] required source changes for windows build
 
 ---
@@ -45,7 +45,7 @@ Subject: [PATCH 4/4] required source changes for windows build
  38 files changed, 92 insertions(+), 68 deletions(-)
 
 diff --git a/CMPPlugin/CMPPlugin.cc b/CMPPlugin/CMPPlugin.cc
-index 07e9289..c747dad 100644
+index 07e9289..ea4ccc5 100644
 --- a/CMPPlugin/CMPPlugin.cc
 +++ b/CMPPlugin/CMPPlugin.cc
 @@ -18,7 +18,7 @@ constexpr double rap_transition = 0.1;
@@ -53,12 +53,12 @@ index 07e9289..c747dad 100644
  
  // Transition point to switch from Omega_ik^2 -> DeltaR_ik^2
 -const double CMPPlugin::_deltaR2_handover =
-+cmpplugin_VISIBILITY const double CMPPlugin::_deltaR2_handover =
++CMPPLUGIN_WINDLL const double CMPPlugin::_deltaR2_handover =
      pow(std::numeric_limits<double>::epsilon(), 0.5);
  
  /// Info class for particle-independent information
 diff --git a/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh b/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
-index 597795b..66d45ea 100644
+index 597795b..194e4cc 100644
 --- a/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
 +++ b/CMPPlugin/include/fastjet/contrib/CMPPlugin.hh
 @@ -13,6 +13,8 @@
@@ -75,7 +75,7 @@ index 597795b..66d45ea 100644
  
  private:
 -  static const double _deltaR2_handover;
-+  cmpplugin_VISIBILITY static const double _deltaR2_handover;
++  CMPPLUGIN_WINDLL static const double _deltaR2_handover;
    double _R, _a;
    CorrectionType _correction_type;
    ClusteringType _clustering_type;
@@ -102,7 +102,7 @@ index c656648..046219c 100644
      }
      return desc.str();
 diff --git a/ConstituentSubtractor/ConstituentSubtractor.cc b/ConstituentSubtractor/ConstituentSubtractor.cc
-index ee2222f..a931a85 100644
+index ee2222f..49cebd7 100644
 --- a/ConstituentSubtractor/ConstituentSubtractor.cc
 +++ b/ConstituentSubtractor/ConstituentSubtractor.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -110,12 +110,12 @@ index ee2222f..a931a85 100644
  namespace contrib{
  
 -LimitedWarning ConstituentSubtractor::_warning_unused_rhom;
-+constituentsubtractor_VISIBILITY LimitedWarning ConstituentSubtractor::_warning_unused_rhom;
++CONSTITUENTSUBTRACTOR_WINDLL LimitedWarning ConstituentSubtractor::_warning_unused_rhom;
  
  
    ///
 diff --git a/ConstituentSubtractor/ConstituentSubtractor.hh b/ConstituentSubtractor/ConstituentSubtractor.hh
-index 48ac16c..d68e42a 100644
+index 48ac16c..a5d1785 100644
 --- a/ConstituentSubtractor/ConstituentSubtractor.hh
 +++ b/ConstituentSubtractor/ConstituentSubtractor.hh
 @@ -25,6 +25,7 @@
@@ -131,7 +131,7 @@ index 48ac16c..d68e42a 100644
      fastjet::Selector *_particle_selector=0;
      fastjet::FunctionOfPseudoJet<double> *_rescaling=0;
 -    static LimitedWarning _warning_unused_rhom;
-+    constituentsubtractor_VISIBILITY static LimitedWarning _warning_unused_rhom;
++    CONSTITUENTSUBTRACTOR_WINDLL static LimitedWarning _warning_unused_rhom;
    };
    
  
@@ -148,7 +148,7 @@ index 229b5b4..50bd7dc 100644
  
  FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
 diff --git a/FlavorCone/FlavorCone.cc b/FlavorCone/FlavorCone.cc
-index 37fd092..0b10619 100644
+index 37fd092..1b9257d 100644
 --- a/FlavorCone/FlavorCone.cc
 +++ b/FlavorCone/FlavorCone.cc
 @@ -109,7 +109,7 @@ bool FlavorConePlugin::exclusive_sequence_meaningful() const {return false;}
@@ -156,12 +156,12 @@ index 37fd092..0b10619 100644
  
  // Main constructor for the FlavorCone Extras class.
 -LimitedWarning FlavorConePlugin::Extras::_warn_seed;
-+flavorcone_VISIBILITY LimitedWarning FlavorConePlugin::Extras::_warn_seed;
++FLAVORCONE_WINDLL LimitedWarning FlavorConePlugin::Extras::_warn_seed;
  FlavorConePlugin::Extras::Extras() : _invalid_seed(0, 0, 0, -1) {;}
  
  // Return the seed associated with a jet.
 diff --git a/FlavorCone/FlavorCone.hh b/FlavorCone/FlavorCone.hh
-index 5e05270..7406b0b 100644
+index 5e05270..eab9a0f 100644
 --- a/FlavorCone/FlavorCone.hh
 +++ b/FlavorCone/FlavorCone.hh
 @@ -23,6 +23,8 @@
@@ -178,12 +178,12 @@ index 5e05270..7406b0b 100644
      const PseudoJet _invalid_seed;
      /// Warning when no seed is found.
 -    static LimitedWarning _warn_seed;
-+    flavorcone_VISIBILITY static LimitedWarning _warn_seed;
++    FLAVORCONE_WINDLL static LimitedWarning _warn_seed;
      friend class FlavorConePlugin;
    };
  
 diff --git a/GenericSubtractor/GenericSubtractor.cc b/GenericSubtractor/GenericSubtractor.cc
-index 8bb6a77..07d3806 100644
+index 8bb6a77..62e3ad2 100644
 --- a/GenericSubtractor/GenericSubtractor.cc
 +++ b/GenericSubtractor/GenericSubtractor.cc
 @@ -42,14 +42,14 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -192,20 +192,20 @@ index 8bb6a77..07d3806 100644
  
 -LimitedWarning GenericSubtractor::_warning_depracated_use_common_bge;
 -LimitedWarning GenericSubtractor::_warning_unused_rhom;
-+genericsubtractor_VISIBILITY LimitedWarning GenericSubtractor::_warning_depracated_use_common_bge;
-+genericsubtractor_VISIBILITY LimitedWarning GenericSubtractor::_warning_unused_rhom;
++GENERICSUBTRACTOR_WINDLL LimitedWarning GenericSubtractor::_warning_depracated_use_common_bge;
++GENERICSUBTRACTOR_WINDLL LimitedWarning GenericSubtractor::_warning_unused_rhom;
  
  //------------------------------------------------------------------------
  // implementation of Genericsubtractor
  //------------------------------------------------------------------------
     
 -  const double GenericSubtractor::_invalid_rho = -numeric_limits<double>::infinity();
-+genericsubtractor_VISIBILITY const double GenericSubtractor::_invalid_rho = -numeric_limits<double>::infinity();
++GENERICSUBTRACTOR_WINDLL const double GenericSubtractor::_invalid_rho = -numeric_limits<double>::infinity();
  
    // Constructor that takes an externally supplied value for rho and,
    // optionally, for rho_m. The latter defaults to zero.
 diff --git a/GenericSubtractor/GenericSubtractor.hh b/GenericSubtractor/GenericSubtractor.hh
-index 2eadfee..e537076 100644
+index 2eadfee..34a8e3a 100644
 --- a/GenericSubtractor/GenericSubtractor.hh
 +++ b/GenericSubtractor/GenericSubtractor.hh
 @@ -22,6 +22,8 @@
@@ -222,18 +222,18 @@ index 2eadfee..e537076 100644
    // we anyway like -infinity as a default, and since that's a function,
    // that's not allowed in an include file.
 -  static const double _invalid_rho;
-+  genericsubtractor_VISIBILITY static const double _invalid_rho;
++  GENERICSUBTRACTOR_WINDLL static const double _invalid_rho;
  
    /// deprecated "use_common_bge_for_rho_and_rhom"
 -  static LimitedWarning _warning_depracated_use_common_bge;
 -  static LimitedWarning _warning_unused_rhom;
-+  genericsubtractor_VISIBILITY static LimitedWarning _warning_depracated_use_common_bge;
-+  genericsubtractor_VISIBILITY static LimitedWarning _warning_unused_rhom;
++  GENERICSUBTRACTOR_WINDLL static LimitedWarning _warning_depracated_use_common_bge;
++  GENERICSUBTRACTOR_WINDLL static LimitedWarning _warning_unused_rhom;
  };
  
  //------------------------------------------------------------------------
 diff --git a/IFNPlugin/FlavInfo.cc b/IFNPlugin/FlavInfo.cc
-index 6223385..cf9f4d3 100644
+index 6223385..ce5ddde 100644
 --- a/IFNPlugin/FlavInfo.cc
 +++ b/IFNPlugin/FlavInfo.cc
 @@ -176,7 +176,7 @@ bool FlavInfo::has_opposite_flavour(const PseudoJet & particle) const {
@@ -241,12 +241,12 @@ index 6223385..cf9f4d3 100644
  //----------------------------------------------------------------------
  // an object with no flavour, that we can conveniently point to
 -const FlavInfo FlavInfo::_no_flav;
-+ifnplugin_VISIBILITY const FlavInfo FlavInfo::_no_flav;
++IFNPLUGIN_WINDLL const FlavInfo FlavInfo::_no_flav;
  
  //----------------------------------------------------------------------
  string FlavInfo::description() const {
 diff --git a/IFNPlugin/FlavNeutraliser.cc b/IFNPlugin/FlavNeutraliser.cc
-index 6c7e153..bd9546a 100644
+index 6c7e153..9a704b4 100644
 --- a/IFNPlugin/FlavNeutraliser.cc
 +++ b/IFNPlugin/FlavNeutraliser.cc
 @@ -8,7 +8,7 @@
@@ -263,7 +263,7 @@ index 6c7e153..bd9546a 100644
  // Set the scale at which to switch from standard measures (e.g. cosphi_coshy)
  // to delta_R measure for small delta_R
 -const double FlavNeutraliser::_deltaR2_handover =
-+ifnplugin_VISIBILITY const double FlavNeutraliser::_deltaR2_handover =
++IFNPLUGIN_WINDLL const double FlavNeutraliser::_deltaR2_handover =
      pow(std::numeric_limits<double>::epsilon(), 0.5);
  
  /// returns true if there is flavour to neutralise betwen jets j & k
@@ -297,7 +297,7 @@ index 6c7e153..bd9546a 100644
    // NOTE -- pp ref scale should evolve to become something
    // less sensitive to UE & pileup, but for now take something simple
 diff --git a/IFNPlugin/include/fastjet/contrib/FlavInfo.hh b/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
-index 75b23ab..89faa20 100644
+index 75b23ab..7947326 100644
 --- a/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
 +++ b/IFNPlugin/include/fastjet/contrib/FlavInfo.hh
 @@ -4,6 +4,8 @@
@@ -314,26 +314,26 @@ index 75b23ab..89faa20 100644
  
    /// value of flag to indicate that the particle is an incoming beam particle
 -  static const int beam = 2;
-+  ifnplugin_VISIBILITY static const int beam = 2;
++  IFNPLUGIN_WINDLL static const int beam = 2;
    /// value of flag to indicate that the particle is a "spectator",
    /// such as a W, which is relevant for calculating the beam distance
    /// in flavour clusterings but does itself take part in the
    /// clustering
 -  static const int spectator = 4;
-+  ifnplugin_VISIBILITY static const int spectator = 4;
++  IFNPLUGIN_WINDLL static const int spectator = 4;
    int _flav_content[7];
    void update_flavourless_attribute();
 -  static const int _is_flavourless = 1;
-+  ifnplugin_VISIBILITY static const int _is_flavourless = 1;
++  IFNPLUGIN_WINDLL static const int _is_flavourless = 1;
  private:
    int _pdg_code;
 -  static const FlavInfo _no_flav;
-+  ifnplugin_VISIBILITY static const FlavInfo _no_flav;
++  IFNPLUGIN_WINDLL static const FlavInfo _no_flav;
  
  };
  
 diff --git a/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh b/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
-index b89a617..3c61fdd 100644
+index b89a617..0afb455 100644
 --- a/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
 +++ b/IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh
 @@ -153,7 +153,7 @@ private:
@@ -341,12 +341,12 @@ index b89a617..3c61fdd 100644
    /// (addition as of 2021-09-26, but not yet being used)
    double _p, _q, _a;
 -  static const double _deltaR2_handover;
-+  ifnplugin_VISIBILITY static const double _deltaR2_handover;
++  IFNPLUGIN_WINDLL static const double _deltaR2_handover;
    bool    _modulo_2;
    measure _measure;
    bool    _use_mass_flav;
 diff --git a/JetCleanser/JetCleanser.cc b/JetCleanser/JetCleanser.cc
-index cacac3f..4e906db 100644
+index cacac3f..33e3057 100644
 --- a/JetCleanser/JetCleanser.cc
 +++ b/JetCleanser/JetCleanser.cc
 @@ -32,8 +32,8 @@ namespace contrib{
@@ -355,13 +355,13 @@ index cacac3f..4e906db 100644
  #else
 -  const double JetCleanser::jc_zero = 1.0e-6;
 -#endif 
-+  jetcleanser_VISIBILITY const double JetCleanser::jc_zero = 1.0e-6;
++  JETCLEANSER_WINDLL const double JetCleanser::jc_zero = 1.0e-6;
 +#endif
  
    /////////////////////////////
    // constructor
 diff --git a/JetCleanser/JetCleanser.hh b/JetCleanser/JetCleanser.hh
-index 2c8cc5f..6665a33 100644
+index 2c8cc5f..be79d6b 100644
 --- a/JetCleanser/JetCleanser.hh
 +++ b/JetCleanser/JetCleanser.hh
 @@ -26,6 +26,8 @@
@@ -379,13 +379,13 @@ index 2c8cc5f..6665a33 100644
  #else
 -  static const double jc_zero;
 -#endif 
-+  jetcleanser_VISIBILITY static const double jc_zero;
++  JETCLEANSER_WINDLL static const double jc_zero;
 +#endif
  
    double _rsub;
    double _fcut;
 diff --git a/JetFFMoments/JetFFMoments.cc b/JetFFMoments/JetFFMoments.cc
-index 520520c..118db93 100644
+index 520520c..8681e65 100644
 --- a/JetFFMoments/JetFFMoments.cc
 +++ b/JetFFMoments/JetFFMoments.cc
 @@ -59,7 +59,7 @@ namespace contrib{
@@ -393,12 +393,12 @@ index 520520c..118db93 100644
  #endif
  
 -  LimitedWarning JetFFMoments::_warnings_negative_pt;
-+  jetffmoments_VISIBILITY LimitedWarning JetFFMoments::_warnings_negative_pt;
++  JETFFMOMENTS_WINDLL LimitedWarning JetFFMoments::_warnings_negative_pt;
  
    // ctor from a vector of n values
    //  - ns   the vector of n values (all non-negative)
 diff --git a/JetFFMoments/JetFFMoments.hh b/JetFFMoments/JetFFMoments.hh
-index 2c2f584..6fffc8f 100644
+index 2c2f584..cf42ee5 100644
 --- a/JetFFMoments/JetFFMoments.hh
 +++ b/JetFFMoments/JetFFMoments.hh
 @@ -22,6 +22,8 @@
@@ -415,7 +415,7 @@ index 2c2f584..6fffc8f 100644
    mutable Selector _rho_range_for_improved_sub; // mutable as it can take a reference
  
 -  static LimitedWarning _warnings_negative_pt;
-+  jetffmoments_VISIBILITY static LimitedWarning _warnings_negative_pt;
++  JETFFMOMENTS_WINDLL static LimitedWarning _warnings_negative_pt;
  
    /// initialisation of the internal behaviour
    void _initialise();
@@ -444,7 +444,7 @@ index ff73a0b..70c9301 100644
  using namespace std;
  
 diff --git a/Nsubjettiness/AxesDefinition.cc b/Nsubjettiness/AxesDefinition.cc
-index 1411139..c312a06 100644
+index 1411139..7f03964 100644
 --- a/Nsubjettiness/AxesDefinition.cc
 +++ b/Nsubjettiness/AxesDefinition.cc
 @@ -77,9 +77,9 @@ PseudoJet AxesDefinition::jiggle(const PseudoJet& axis) const {
@@ -454,14 +454,14 @@ index 1411139..c312a06 100644
 -LimitedWarning HardestJetAxes::_too_few_axes_warning;
 -LimitedWarning ExclusiveJetAxes::_too_few_axes_warning;
 -LimitedWarning ExclusiveCombinatorialJetAxes::_too_few_axes_warning;
-+nsubjettiness_VISIBILITY LimitedWarning HardestJetAxes::_too_few_axes_warning;
-+nsubjettiness_VISIBILITY LimitedWarning ExclusiveJetAxes::_too_few_axes_warning;
-+nsubjettiness_VISIBILITY LimitedWarning ExclusiveCombinatorialJetAxes::_too_few_axes_warning;
++NSUBJETTINESS_WINDLL LimitedWarning HardestJetAxes::_too_few_axes_warning;
++NSUBJETTINESS_WINDLL LimitedWarning ExclusiveJetAxes::_too_few_axes_warning;
++NSUBJETTINESS_WINDLL LimitedWarning ExclusiveCombinatorialJetAxes::_too_few_axes_warning;
  
  std::vector<fastjet::PseudoJet> Manual_Axes::get_starting_axes(int,
                                                                 const std::vector<fastjet::PseudoJet>&,
 diff --git a/Nsubjettiness/AxesDefinition.hh b/Nsubjettiness/AxesDefinition.hh
-index be97d59..2682076 100644
+index be97d59..131bb13 100644
 --- a/Nsubjettiness/AxesDefinition.hh
 +++ b/Nsubjettiness/AxesDefinition.hh
 @@ -25,7 +25,7 @@
@@ -486,7 +486,7 @@ index be97d59..2682076 100644
  private:
     fastjet::JetDefinition _def; ///< Jet definition to use.
 -   static LimitedWarning _too_few_axes_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _too_few_axes_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _too_few_axes_warning;
  };
  
  ///------------------------------------------------------------------------
@@ -495,7 +495,7 @@ index be97d59..2682076 100644
     fastjet::JetDefinition _def;   ///< Jet definition to use
     int _nExtra;                   ///< Extra axes to find
 -   static LimitedWarning _too_few_axes_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _too_few_axes_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _too_few_axes_warning;
  };
     
  ///------------------------------------------------------------------------
@@ -504,12 +504,12 @@ index be97d59..2682076 100644
     fastjet::JetDefinition _def;  ///< Jet Definition to use.
     
 -   static LimitedWarning _too_few_axes_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _too_few_axes_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _too_few_axes_warning;
  
  };
  
 diff --git a/Nsubjettiness/Njettiness.cc b/Nsubjettiness/Njettiness.cc
-index d4a665d..d8b3f36 100644
+index d4a665d..a339302 100644
 --- a/Nsubjettiness/Njettiness.cc
 +++ b/Nsubjettiness/Njettiness.cc
 @@ -35,8 +35,8 @@ namespace contrib {
@@ -518,13 +518,13 @@ index d4a665d..d8b3f36 100644
  
 -LimitedWarning Njettiness::_old_measure_warning;
 -LimitedWarning Njettiness::_old_axes_warning;
-+nsubjettiness_VISIBILITY LimitedWarning Njettiness::_old_measure_warning;
-+nsubjettiness_VISIBILITY LimitedWarning Njettiness::_old_axes_warning;
++NSUBJETTINESS_WINDLL LimitedWarning Njettiness::_old_measure_warning;
++NSUBJETTINESS_WINDLL LimitedWarning Njettiness::_old_axes_warning;
  
     
  // Constructor
 diff --git a/Nsubjettiness/Njettiness.hh b/Nsubjettiness/Njettiness.hh
-index 8784e51..3c950c4 100644
+index 8784e51..f84ee40 100644
 --- a/Nsubjettiness/Njettiness.hh
 +++ b/Nsubjettiness/Njettiness.hh
 @@ -187,9 +187,9 @@ private:
@@ -532,15 +532,15 @@ index 8784e51..3c950c4 100644
  
     /// Warning if the user tries to use v1.0.3 measure style.
 -   static LimitedWarning _old_measure_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _old_measure_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _old_measure_warning;
     /// Warning if the user tries to use v1.0.3 axes style.
 -   static LimitedWarning _old_axes_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _old_axes_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _old_axes_warning;
  
     
  public:
 diff --git a/Nsubjettiness/NjettinessPlugin.cc b/Nsubjettiness/NjettinessPlugin.cc
-index fdc3f77..bec87a7 100644
+index fdc3f77..22b1583 100644
 --- a/Nsubjettiness/NjettinessPlugin.cc
 +++ b/Nsubjettiness/NjettinessPlugin.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -548,12 +548,12 @@ index fdc3f77..bec87a7 100644
  namespace contrib{
  
 -LimitedWarning NjettinessPlugin::_old_constructor_warning;
-+nsubjettiness_VISIBILITY LimitedWarning NjettinessPlugin::_old_constructor_warning;
++NSUBJETTINESS_WINDLL LimitedWarning NjettinessPlugin::_old_constructor_warning;
  
  std::string NjettinessPlugin::description() const {return "N-jettiness jet finder";}
  
 diff --git a/Nsubjettiness/NjettinessPlugin.hh b/Nsubjettiness/NjettinessPlugin.hh
-index fb3385c..5184ae1 100644
+index fb3385c..83b826a 100644
 --- a/Nsubjettiness/NjettinessPlugin.hh
 +++ b/Nsubjettiness/NjettinessPlugin.hh
 @@ -109,7 +109,7 @@ private:
@@ -561,7 +561,7 @@ index fb3385c..5184ae1 100644
  
     /// Warning if the user tries to use v1.0.3 constructor.
 -   static LimitedWarning _old_constructor_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _old_constructor_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _old_constructor_warning;
     
  public:
  
@@ -573,7 +573,7 @@ index fb3385c..5184ae1 100644
 \ No newline at end of file
 +#endif  // __FASTJET_CONTRIB_NJETTINESSPLUGIN_HH__
 diff --git a/Nsubjettiness/Nsubjettiness.cc b/Nsubjettiness/Nsubjettiness.cc
-index 29a708f..e2cd4d4 100644
+index 29a708f..4d8376e 100644
 --- a/Nsubjettiness/Nsubjettiness.cc
 +++ b/Nsubjettiness/Nsubjettiness.cc
 @@ -28,7 +28,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -581,12 +581,12 @@ index 29a708f..e2cd4d4 100644
  namespace contrib {
  
 -LimitedWarning Nsubjettiness::_old_constructor_warning;
-+nsubjettiness_VISIBILITY LimitedWarning Nsubjettiness::_old_constructor_warning;
++NSUBJETTINESS_WINDLL LimitedWarning Nsubjettiness::_old_constructor_warning;
     
     
  //result returns tau_N with normalization dependent on what is specified in constructor
 diff --git a/Nsubjettiness/Nsubjettiness.hh b/Nsubjettiness/Nsubjettiness.hh
-index f87fd01..55528c1 100644
+index f87fd01..d787475 100644
 --- a/Nsubjettiness/Nsubjettiness.hh
 +++ b/Nsubjettiness/Nsubjettiness.hh
 @@ -140,7 +140,7 @@ private:
@@ -594,7 +594,7 @@ index f87fd01..55528c1 100644
     
     /// Warning if the user tries to use v1.0.3 constructor.
 -   static LimitedWarning _old_constructor_warning;
-+   nsubjettiness_VISIBILITY static LimitedWarning _old_constructor_warning;
++   NSUBJETTINESS_WINDLL static LimitedWarning _old_constructor_warning;
  
  public:
     
@@ -611,7 +611,7 @@ index ecb1ad6..9a04071 100644
  #include <vector>
  #include <list>
 diff --git a/RecursiveTools/Recluster.cc b/RecursiveTools/Recluster.cc
-index 7a5667f..84ce2e0 100644
+index 7a5667f..d93caed 100644
 --- a/RecursiveTools/Recluster.cc
 +++ b/RecursiveTools/Recluster.cc
 @@ -46,7 +46,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -619,12 +619,12 @@ index 7a5667f..84ce2e0 100644
  namespace contrib{
  
 -LimitedWarning Recluster::_explicit_ghost_warning;
-+recursivetools_VISIBILITY LimitedWarning Recluster::_explicit_ghost_warning;
++RECURSIVETOOLS_WINDLL LimitedWarning Recluster::_explicit_ghost_warning;
  
  // class description
  string Recluster::description() const {
 diff --git a/RecursiveTools/RecursiveSymmetryCutBase.cc b/RecursiveTools/RecursiveSymmetryCutBase.cc
-index b90b613..3ce5bb3 100644
+index b90b613..84f9642 100644
 --- a/RecursiveTools/RecursiveSymmetryCutBase.cc
 +++ b/RecursiveTools/RecursiveSymmetryCutBase.cc
 @@ -32,12 +32,12 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -633,19 +633,19 @@ index b90b613..3ce5bb3 100644
  
 -LimitedWarning RecursiveSymmetryCutBase::_negative_mass_warning;
 -LimitedWarning RecursiveSymmetryCutBase::_mu2_gt1_warning;
-+recursivetools_VISIBILITY LimitedWarning RecursiveSymmetryCutBase::_negative_mass_warning;
-+recursivetools_VISIBILITY LimitedWarning RecursiveSymmetryCutBase::_mu2_gt1_warning;
++RECURSIVETOOLS_WINDLL LimitedWarning RecursiveSymmetryCutBase::_negative_mass_warning;
++RECURSIVETOOLS_WINDLL LimitedWarning RecursiveSymmetryCutBase::_mu2_gt1_warning;
  //LimitedWarning RecursiveSymmetryCutBase::_nonca_warning;
 -LimitedWarning RecursiveSymmetryCutBase::_explicit_ghost_warning;
-+recursivetools_VISIBILITY LimitedWarning RecursiveSymmetryCutBase::_explicit_ghost_warning;
++RECURSIVETOOLS_WINDLL LimitedWarning RecursiveSymmetryCutBase::_explicit_ghost_warning;
  
 -std::atomic<bool> RecursiveSymmetryCutBase::_verbose {false};
-+recursivetools_VISIBILITY std::atomic<bool> RecursiveSymmetryCutBase::_verbose {false};
++RECURSIVETOOLS_WINDLL std::atomic<bool> RecursiveSymmetryCutBase::_verbose {false};
  
  //----------------------------------------------------------------------
  PseudoJet RecursiveSymmetryCutBase::result(const PseudoJet & jet) const {
 diff --git a/RecursiveTools/include/fastjet/contrib/Recluster.hh b/RecursiveTools/include/fastjet/contrib/Recluster.hh
-index 7f7c639..a26a514 100644
+index 7f7c639..5551919 100644
 --- a/RecursiveTools/include/fastjet/contrib/Recluster.hh
 +++ b/RecursiveTools/include/fastjet/contrib/Recluster.hh
 @@ -22,6 +22,8 @@
@@ -662,7 +662,7 @@ index 7f7c639..a26a514 100644
                                 ///< composite jet with subjets as pieces
  
 -  static LimitedWarning   _explicit_ghost_warning;
-+  recursivetools_VISIBILITY static LimitedWarning   _explicit_ghost_warning;
++  RECURSIVETOOLS_WINDLL static LimitedWarning   _explicit_ghost_warning;
  };
  
  } // namespace contrib
@@ -680,7 +680,7 @@ index 1a2eb86..33f6491 100644
    
  private:
 diff --git a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
-index e27e7bc..a67dff7 100644
+index e27e7bc..50c497f 100644
 --- a/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
 +++ b/RecursiveTools/include/fastjet/contrib/RecursiveSymmetryCutBase.hh
 @@ -33,6 +33,7 @@
@@ -696,7 +696,7 @@ index e27e7bc..a67dff7 100644
  
    /// for testing 
 -  static std::atomic<bool> _verbose;
-+  recursivetools_VISIBILITY static std::atomic<bool> _verbose;
++  RECURSIVETOOLS_WINDLL static std::atomic<bool> _verbose;
  
  protected:
    // the methods below have to be defined by deerived classes
@@ -706,11 +706,11 @@ index e27e7bc..a67dff7 100644
  
 -  static LimitedWarning   _negative_mass_warning;
 -  static LimitedWarning   _mu2_gt1_warning;
-+  recursivetools_VISIBILITY static LimitedWarning   _negative_mass_warning;
-+  recursivetools_VISIBILITY static LimitedWarning   _mu2_gt1_warning;
++  RECURSIVETOOLS_WINDLL static LimitedWarning   _negative_mass_warning;
++  RECURSIVETOOLS_WINDLL static LimitedWarning   _mu2_gt1_warning;
    //static LimitedWarning   _nonca_warning;
 -  static LimitedWarning   _explicit_ghost_warning;
-+  recursivetools_VISIBILITY static LimitedWarning   _explicit_ghost_warning;
++  RECURSIVETOOLS_WINDLL static LimitedWarning   _explicit_ghost_warning;
  
    // additional verbose structure information
    bool _verbose_structure;
@@ -740,7 +740,7 @@ index 6ab411f..f25638c 100644
  #include <sstream>
  
 diff --git a/VariableR/VariableRPlugin.cc b/VariableR/VariableRPlugin.cc
-index 7de47ca..b34db47 100644
+index 7de47ca..0f27a9c 100644
 --- a/VariableR/VariableRPlugin.cc
 +++ b/VariableR/VariableRPlugin.cc
 @@ -44,9 +44,9 @@ namespace contrib {
@@ -750,9 +750,9 @@ index 7de47ca..b34db47 100644
 -  const double VariableRPlugin::CALIKE  =  0.0;
 -  const double VariableRPlugin::KTLIKE  =  1.0;
 -  const double VariableRPlugin::AKTLIKE = -1.0;
-+  variabler_VISIBILITY const double VariableRPlugin::CALIKE  =  0.0;
-+  variabler_VISIBILITY const double VariableRPlugin::KTLIKE  =  1.0;
-+  variabler_VISIBILITY const double VariableRPlugin::AKTLIKE = -1.0;
++  VARIABLER_WINDLL const double VariableRPlugin::CALIKE  =  0.0;
++  VARIABLER_WINDLL const double VariableRPlugin::KTLIKE  =  1.0;
++  VARIABLER_WINDLL const double VariableRPlugin::AKTLIKE = -1.0;
     
    //----------------------------------------------------------------------
    // classes to help run a Variable R algorithm using NN-type classes
@@ -761,12 +761,12 @@ index 7de47ca..b34db47 100644
    // now the implementation of VariableR itself
    //----------------------------------------------------------------------
 -  LimitedWarning VariableRPlugin::_preclustering_deprecated_warning;
-+  variabler_VISIBILITY LimitedWarning VariableRPlugin::_preclustering_deprecated_warning;
++  VARIABLER_WINDLL LimitedWarning VariableRPlugin::_preclustering_deprecated_warning;
    
    // Constructor that sets VR algorithm parameters
    //  - rho         mass scale for effective radius (i.e. R ~ rho/pT)
 diff --git a/VariableR/VariableRPlugin.hh b/VariableR/VariableRPlugin.hh
-index ee88f13..bcc2545 100644
+index ee88f13..5ae2fbb 100644
 --- a/VariableR/VariableRPlugin.hh
 +++ b/VariableR/VariableRPlugin.hh
 @@ -25,6 +25,8 @@
@@ -785,9 +785,9 @@ index ee88f13..bcc2545 100644
 -    static const double CALIKE;  //  =  0.0;
 -    static const double KTLIKE;  //  =  1.0;
 -    static const double AKTLIKE; //  = -1.0;
-+    variabler_VISIBILITY static const double CALIKE;  //  =  0.0;
-+    variabler_VISIBILITY static const double KTLIKE;  //  =  1.0;
-+    variabler_VISIBILITY static const double AKTLIKE; //  = -1.0;
++    VARIABLER_WINDLL static const double CALIKE;  //  =  0.0;
++    VARIABLER_WINDLL static const double KTLIKE;  //  =  1.0;
++    VARIABLER_WINDLL static const double AKTLIKE; //  = -1.0;
  
      /// for backwards compatibility reasons, we also define ClusterType
      /// as "double"
@@ -796,10 +796,10 @@ index ee88f13..bcc2545 100644
  
      // warn about pre-clustering being deprecated
 -    static LimitedWarning _preclustering_deprecated_warning;
-+    variabler_VISIBILITY static LimitedWarning _preclustering_deprecated_warning;
++    VARIABLER_WINDLL static LimitedWarning _preclustering_deprecated_warning;
      
      // helper function to decide what strategy is best
      //
 -- 
-2.39.5 (Apple Git-154)
+2.49.0
 

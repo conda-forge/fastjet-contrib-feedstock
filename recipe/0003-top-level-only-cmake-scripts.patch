@@ -35,13 +35,13 @@ index 0000000..c51bd38
 +#set(PROJECT_VERSION_PRERELEASE "")
 +set(PROJECT_VERSION_PRERELEASE "-devel")
 +
-+#if(MSVC)
-+#  execute_process(COMMAND 
-+#                    git apply --whitespace=fix -p0 0001-required-source-changes-for-windows-build.patch
-+#                  WORKING_DIRECTORY
-+#                    ${CMAKE_CURRENT_SOURCE_DIR}
-+#                 )
-+#endif()
++if(MSVC)
++  execute_process(COMMAND 
++                    git apply --whitespace=fix -p0 0001-required-source-changes-for-windows-build.patch
++                  WORKING_DIRECTORY
++                    ${CMAKE_CURRENT_SOURCE_DIR}
++                 )
++endif()
 +
 +#----------------------------------------------------------------------
 +# version information
