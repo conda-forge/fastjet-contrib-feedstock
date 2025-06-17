@@ -1,17 +1,17 @@
-From 99b342725b8dd016f6d042315223615d214d3475 Mon Sep 17 00:00:00 2001
+From 549490bf993c895ea363fd9c5c4a77f88650235b Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Tue, 17 Jun 2025 13:53:13 -0500
+Date: Tue, 17 Jun 2025 14:46:55 -0500
 Subject: [PATCH 3/4] top-level-only cmake
 
 ---
- CMakeLists.txt                                | 229 ++++++++++++++++++
+ CMakeLists.txt                                | 215 ++++++++++++++++++
  Config.cmake.in                               |   5 +
  .../cmake-templates/contrib_CMakeLists.txt.in |  60 +++++
  scripts/cmake-templates/defines.h.in          |  20 ++
  .../inccontrib_CMakeLists.txt.in              |   2 +
  .../cmake-templates/incdir_CMakeLists.txt.in  |   5 +
  .../incfastjet_CMakeLists.txt.in              |   2 +
- 7 files changed, 323 insertions(+)
+ 7 files changed, 309 insertions(+)
  create mode 100644 CMakeLists.txt
  create mode 100644 Config.cmake.in
  create mode 100644 scripts/cmake-templates/contrib_CMakeLists.txt.in
@@ -22,10 +22,10 @@ Subject: [PATCH 3/4] top-level-only cmake
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..50a6caf
+index 0000000..c98ec23
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,229 @@
+@@ -0,0 +1,215 @@
 +cmake_minimum_required(VERSION 3.7.0)
 +include(CMakePrintHelpers)
 +
@@ -97,32 +97,18 @@ index 0000000..50a6caf
 +  find_package(fastjet REQUIRED)
 +endif()
 +
-+list(APPEND fjcontrib_DIRNAMES
-+  GenericSubtractor
-+  JetFFMoments
-+  VariableR
-+  Nsubjettiness
-+  EnergyCorrelator
-+  ScJet
-+  SubjetCounting
-+  JetCleanser
-+  JetsWithoutJets
-+  ConstituentSubtractor
-+  RecursiveTools
-+  SoftKiller
-+  ValenciaPlugin
-+  ClusteringVetoPlugin
-+  QCDAwarePlugin
-+  FlavorCone
-+  LundPlane
-+  Centauro
-+  KTClusCXX
-+  SignalFreeBackgroundEstimator
-+  IFNPlugin
-+  CMPPlugin
-+  SDFPlugin
-+  GHSAlgo
-+)
++# automatically determine the list of contribs, as done in configure
++file(GLOB MAYBE_CONTRIB_DIRS LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
++foreach(MAYBE_CONTRIB_DIR ${MAYBE_CONTRIB_DIRS})
++    if(IS_DIRECTORY ${MAYBE_CONTRIB_DIR})
++        if(EXISTS ${MAYBE_CONTRIB_DIR}/VERSION
++             OR EXISTS ${MAYBE_CONTRIB_DIR}/FJCONTRIB.cfg
++             AND NOT ${MAYBE_CONTRIB_DIR} STREQUAL "Template"
++          )
++          list(APPEND fjcontrib_DIRNAMES ${MAYBE_CONTRIB_DIR})
++        endif()
++    endif()
++endforeach()
 +
 +foreach (FJCONTRIB_NAME ${fjcontrib_DIRNAMES})
 +  string(TOUPPER ${FJCONTRIB_NAME} FJCONTRIB_NAME_UPPER)
