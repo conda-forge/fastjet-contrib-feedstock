@@ -18,7 +18,7 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 5
+  number: 6
   skip: win
 
 outputs:
