@@ -14,11 +14,11 @@ source:
   patches:
     - 0001-port-the-CMS-additions.patch
     - 0002-drop-as-needed-flag-to-avoid-link-errors-on-missing-.patch
-    - 0003-top-level-only-cmake-scripts.patch
+    - 0003-top-level-only-cmake.patch
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 6
+  number: 7
   variant:
     use_keys:
       - x86_64_microarch_level
