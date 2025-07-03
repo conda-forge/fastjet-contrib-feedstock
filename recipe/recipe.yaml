@@ -18,8 +18,7 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 6
-  skip: win
+  number: 7
 
 outputs:
   - package:
@@ -27,15 +26,13 @@ outputs:
 
     build:
       script:
-        - if: unix
-          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build 
         - if: win
           then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
+          else: cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
         - cmake -LH build
-        - if: unix
-          then: cmake --build build --parallel="${CPU_COUNT}"
         - if: win
           then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+          else: cmake --build build --parallel="${CPU_COUNT}"
         - cmake --install build
 
     requirements:
@@ -45,13 +42,11 @@ outputs:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
-        - cgal
         - if: unix
           then: make
-        - if: build_platform != target_platform
-          then:
-            - fastjet-cxx
       host:
+        - if: not (win and arm64)
+          then: cgal-cpp
         - fastjet-cxx
       run:
         - fastjet-cxx
@@ -59,34 +54,94 @@ outputs:
     tests:
       - package_contents:
           files:
-            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            - if: win
+              then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+              else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             exists:
-              - fastjetcontribfragile
+              - if: win
+                then: fastjetcontribfragile.lib
+                else: fastjetcontribfragile
             not_exists:
-              - CMPPlugin
-              - Centauro
-              - ClusteringVetoPlugin
-              - ConstituentSubtractor
-              - EnergyCorrelator
-              - FlavorCone
-              - GHSAlgo
-              - GenericSubtractor
-              - IFNPlugin
-              - JetCleanser
-              - JetFFMoments
-              - JetsWithoutJets
-              - LundPlane
-              - Nsubjettiness
-              - QCDAwarePlugin
-              - RecursiveTools
-              - SDFPlugin
-              - ScJet
-              - SignalFreeBackgroundEstimator
-              - SoftKiller
-              - SubjetCounting
-              - ValenciaPlugin
-              - VariableR
+              - if: win
+                then:
+                  - CMPPlugin.lib
+                  - Centauro.lib
+                  - ClusteringVetoPlugin.lib
+                  - ConstituentSubtractor.lib
+                  - EnergyCorrelator.lib
+                  - FlavorCone.lib
+                  - GHSAlgo.lib
+                  - GenericSubtractor.lib
+                  - IFNPlugin.lib
+                  - JetCleanser.lib
+                  - JetFFMoments.lib
+                  - JetsWithoutJets.lib
+                  - LundPlane.lib
+                  - Nsubjettiness.lib
+                  - QCDAwarePlugin.lib
+                  - RecursiveTools.lib
+                  - SDFPlugin.lib
+                  - ScJet.lib
+                  - SignalFreeBackgroundEstimator.lib
+                  - SoftKiller.lib
+                  - SubjetCounting.lib
+                  - ValenciaPlugin.lib
+                  - VariableR.lib
+                else:
+                  - CMPPlugin
+                  - Centauro
+                  - ClusteringVetoPlugin
+                  - ConstituentSubtractor
+                  - EnergyCorrelator
+                  - FlavorCone
+                  - GHSAlgo
+                  - GenericSubtractor
+                  - IFNPlugin
+                  - JetCleanser
+                  - JetFFMoments
+                  - JetsWithoutJets
+                  - LundPlane
+                  - Nsubjettiness
+                  - QCDAwarePlugin
+                  - RecursiveTools
+                  - SDFPlugin
+                  - ScJet
+                  - SignalFreeBackgroundEstimator
+                  - SoftKiller
+                  - SubjetCounting
+                  - ValenciaPlugin
+                  - VariableR
+          bin:
+            exists:
+              - if: win
+                then: fastjetcontribfragile.dll
+            not_exists:
+              - if: win
+                then:
+                  - CMPPlugin.dll
+                  - Centauro.dll
+                  - ClusteringVetoPlugin.dll
+                  - ConstituentSubtractor.dll
+                  - EnergyCorrelator.dll
+                  - FlavorCone.dll
+                  - GHSAlgo.dll
+                  - GenericSubtractor.dll
+                  - IFNPlugin.dll
+                  - JetCleanser.dll
+                  - JetFFMoments.dll
+                  - JetsWithoutJets.dll
+                  - LundPlane.dll
+                  - Nsubjettiness.dll
+                  - QCDAwarePlugin.dll
+                  - RecursiveTools.dll
+                  - SDFPlugin.dll
+                  - ScJet.dll
+                  - SignalFreeBackgroundEstimator.dll
+                  - SoftKiller.dll
+                  - SubjetCounting.dll
+                  - ValenciaPlugin.dll
+                  - VariableR.dll
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -142,14 +197,16 @@ outputs:
             - fastjet/contrib/VariableR.hh
             - fastjet/contrib/VariableRPlugin.hh
             - fastjet/contrib/XConePlugin.hh
-      - script: run_test_shared.sh
-        requirements:
-          run:
-            - ${{ compiler('cxx') }}
-            - curl
-            - tar
-            - grep
-            - sed
+      - if: unix
+        then:
+          - script: run_test_shared.sh
+            requirements:
+              run:
+                - ${{ compiler('cxx') }}
+                - curl
+                - tar
+                - grep
+                - sed
 
 
   - package:
@@ -157,15 +214,13 @@ outputs:
 
     build:
       script:
-        - if: unix
-          then: cmake "${CMAKE_ARGS}" -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build 
         - if: win
           then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
+          else: cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
         - cmake -LH build
-        - if: unix
-          then: cmake --build build --parallel="${CPU_COUNT}"
         - if: win
           then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+          else: cmake --build build --parallel="${CPU_COUNT}"
         - cmake --install build
 
     requirements:
@@ -173,13 +228,11 @@ outputs:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
         - cmake
-        - cgal
         - if: unix
           then: make
-        - if: build_platform != target_platform
-          then:
-            - fastjet-cxx
       host:
+        - if: not (win and arm64)
+          then: cgal-cpp
         - fastjet-cxx
       run:
         - fastjet-cxx
@@ -187,34 +240,94 @@ outputs:
     tests:
       - package_contents:
           files:
-            - lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            - if: win
+              then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+              else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
           lib:
             exists:
-              - CMPPlugin
-              - Centauro
-              - ClusteringVetoPlugin
-              - ConstituentSubtractor
-              - EnergyCorrelator
-              - FlavorCone
-              - GHSAlgo
-              - GenericSubtractor
-              - IFNPlugin
-              - JetCleanser
-              - JetFFMoments
-              - JetsWithoutJets
-              - LundPlane
-              - Nsubjettiness
-              - QCDAwarePlugin
-              - RecursiveTools
-              - SDFPlugin
-              - ScJet
-              - SignalFreeBackgroundEstimator
-              - SoftKiller
-              - SubjetCounting
-              - ValenciaPlugin
-              - VariableR
+              - if: win
+                then:
+                  - CMPPlugin.lib
+                  - Centauro.lib
+                  - ClusteringVetoPlugin.lib
+                  - ConstituentSubtractor.lib
+                  - EnergyCorrelator.lib
+                  - FlavorCone.lib
+                  - GHSAlgo.lib
+                  - GenericSubtractor.lib
+                  - IFNPlugin.lib
+                  - JetCleanser.lib
+                  - JetFFMoments.lib
+                  - JetsWithoutJets.lib
+                  - LundPlane.lib
+                  - Nsubjettiness.lib
+                  - QCDAwarePlugin.lib
+                  - RecursiveTools.lib
+                  - SDFPlugin.lib
+                  - ScJet.lib
+                  - SignalFreeBackgroundEstimator.lib
+                  - SoftKiller.lib
+                  - SubjetCounting.lib
+                  - ValenciaPlugin.lib
+                  - VariableR.lib
+                else:
+                  - CMPPlugin
+                  - Centauro
+                  - ClusteringVetoPlugin
+                  - ConstituentSubtractor
+                  - EnergyCorrelator
+                  - FlavorCone
+                  - GHSAlgo
+                  - GenericSubtractor
+                  - IFNPlugin
+                  - JetCleanser
+                  - JetFFMoments
+                  - JetsWithoutJets
+                  - LundPlane
+                  - Nsubjettiness
+                  - QCDAwarePlugin
+                  - RecursiveTools
+                  - SDFPlugin
+                  - ScJet
+                  - SignalFreeBackgroundEstimator
+                  - SoftKiller
+                  - SubjetCounting
+                  - ValenciaPlugin
+                  - VariableR
             not_exists:
-              - fastjetcontribfragile
+              - if: win
+                then: fastjetcontribfragile.lib
+                else: fastjetcontribfragile
+          bin:
+            exists:
+              - if: win
+                then:
+                  - CMPPlugin.dll
+                  - Centauro.dll
+                  - ClusteringVetoPlugin.dll
+                  - ConstituentSubtractor.dll
+                  - EnergyCorrelator.dll
+                  - FlavorCone.dll
+                  - GHSAlgo.dll
+                  - GenericSubtractor.dll
+                  - IFNPlugin.dll
+                  - JetCleanser.dll
+                  - JetFFMoments.dll
+                  - JetsWithoutJets.dll
+                  - LundPlane.dll
+                  - Nsubjettiness.dll
+                  - QCDAwarePlugin.dll
+                  - RecursiveTools.dll
+                  - SDFPlugin.dll
+                  - ScJet.dll
+                  - SignalFreeBackgroundEstimator.dll
+                  - SoftKiller.dll
+                  - SubjetCounting.dll
+                  - ValenciaPlugin.dll
+                  - VariableR.dll
+            not_exists:
+              - if: win
+                then: fastjetcontribfragile.dll
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -270,14 +383,16 @@ outputs:
             - fastjet/contrib/VariableR.hh
             - fastjet/contrib/VariableRPlugin.hh
             - fastjet/contrib/XConePlugin.hh
-      - script: run_test_static.sh
-        requirements:
-          run:
-            - ${{ compiler('cxx') }}
-            - curl
-            - tar
-            - grep
-            - sed
+      - if: unix
+        then:
+          - script: run_test_static.sh
+            requirements:
+              run:
+                - ${{ compiler('cxx') }}
+                - curl
+                - tar
+                - grep
+                - sed
 
 about:
   homepage: https://fastjet.hepforge.org/contrib/
