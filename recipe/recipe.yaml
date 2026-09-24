@@ -17,7 +17,7 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - package:
@@ -47,8 +47,10 @@ outputs:
         - if: not (win and arm64)
           then: cgal-cpp
         - fastjet-cxx
+        - fastjet-cxx-devel
       run:
         - fastjet-cxx
+        - fastjet-cxx-devel
 
     tests:
       - package_contents:
@@ -160,8 +162,10 @@ outputs:
         - if: not (win and arm64)
           then: cgal-cpp
         - fastjet-cxx
+        - fastjet-cxx-devel
       run:
         - fastjet-cxx
+        - fastjet-cxx-devel
 
     tests:
       - package_contents:
