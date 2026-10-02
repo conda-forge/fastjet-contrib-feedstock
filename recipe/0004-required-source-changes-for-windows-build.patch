@@ -1,48 +1,46 @@
-From 5755ee0f41910d1d42988dc4b4015e438c24ed54 Mon Sep 17 00:00:00 2001
+From 6bfb642c0fa27818194cfeaa0ee45259a0c632c8 Mon Sep 17 00:00:00 2001
 From: Lindsey Gray <lindsey.gray@gmail.com>
-Date: Tue, 17 Jun 2025 19:56:30 -0500
+Date: Fri, 2 Oct 2026 12:26:25 -0500
 Subject: [PATCH 4/4] required source changes for windows build
 
 ---
- CMPPlugin/CMPPlugin.cc                               |  2 +-
- CMPPlugin/include/fastjet/contrib/CMPPlugin.hh       |  4 +++-
- Centauro/Centauro.cc                                 |  4 ++--
- ConstituentSubtractor/ConstituentSubtractor.cc       |  2 +-
- ConstituentSubtractor/ConstituentSubtractor.hh       |  3 ++-
- EnergyCorrelator/EnergyCorrelator.cc                 |  1 +
- FlavorCone/FlavorCone.cc                             |  2 +-
- FlavorCone/FlavorCone.hh                             |  4 +++-
- GenericSubtractor/GenericSubtractor.cc               |  6 +++---
- GenericSubtractor/GenericSubtractor.hh               |  8 +++++---
- IFNPlugin/FlavInfo.cc                                |  2 +-
- IFNPlugin/FlavNeutraliser.cc                         | 12 ++++++------
- IFNPlugin/include/fastjet/contrib/FlavInfo.hh        | 10 ++++++----
- IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh |  2 +-
- JetCleanser/JetCleanser.cc                           |  4 ++--
- JetCleanser/JetCleanser.hh                           |  6 ++++--
- JetFFMoments/JetFFMoments.cc                         |  2 +-
- JetFFMoments/JetFFMoments.hh                         |  4 +++-
- LundPlane/include/fastjet/contrib/LundEEHelpers.hh   |  1 +
- .../fastjet/contrib/RecursiveLundEEGenerator.hh      |  1 +
- Nsubjettiness/AxesDefinition.cc                      |  6 +++---
- Nsubjettiness/AxesDefinition.hh                      |  9 +++++----
- Nsubjettiness/Njettiness.cc                          |  4 ++--
- Nsubjettiness/Njettiness.hh                          |  4 ++--
- Nsubjettiness/NjettinessPlugin.cc                    |  2 +-
- Nsubjettiness/NjettinessPlugin.hh                    |  4 ++--
- Nsubjettiness/Nsubjettiness.cc                       |  2 +-
- Nsubjettiness/Nsubjettiness.hh                       |  2 +-
- Nsubjettiness/TauComponents.hh                       |  1 -
- RecursiveTools/Recluster.cc                          |  2 +-
- RecursiveTools/RecursiveSymmetryCutBase.cc           |  8 ++++----
- RecursiveTools/include/fastjet/contrib/Recluster.hh  |  4 +++-
- .../include/fastjet/contrib/RecursiveSoftDrop.hh     |  2 +-
- .../fastjet/contrib/RecursiveSymmetryCutBase.hh      |  9 +++++----
- .../SignalFreeBackgroundEstimator.cc                 |  1 +
- SoftKiller/SoftKiller.cc                             |  2 ++
- VariableR/VariableRPlugin.cc                         |  8 ++++----
- VariableR/VariableRPlugin.hh                         | 10 ++++++----
- 38 files changed, 92 insertions(+), 68 deletions(-)
+ CMPPlugin/CMPPlugin.cc                                 |  2 +-
+ CMPPlugin/include/fastjet/contrib/CMPPlugin.hh         |  4 +++-
+ Centauro/Centauro.cc                                   |  4 ++--
+ ConstituentSubtractor/ConstituentSubtractor.cc         |  2 +-
+ ConstituentSubtractor/ConstituentSubtractor.hh         |  3 ++-
+ DynamicR/DynamicR.cc                                   |  2 +-
+ DynamicR/include/fastjet/contrib/DynamicR.hh           |  3 ++-
+ FlavorCone/FlavorCone.cc                               |  2 +-
+ FlavorCone/FlavorCone.hh                               |  4 +++-
+ GenericSubtractor/GenericSubtractor.cc                 |  6 +++---
+ GenericSubtractor/GenericSubtractor.hh                 |  8 +++++---
+ IFNPlugin/FlavInfo.cc                                  |  2 +-
+ IFNPlugin/FlavNeutraliser.cc                           | 10 +++++-----
+ IFNPlugin/include/fastjet/contrib/FlavInfo.hh          | 10 ++++++----
+ IFNPlugin/include/fastjet/contrib/FlavNeutraliser.hh   |  2 +-
+ JetCleanser/JetCleanser.cc                             |  4 ++--
+ JetCleanser/JetCleanser.hh                             |  6 ++++--
+ JetFFMoments/JetFFMoments.cc                           |  2 +-
+ JetFFMoments/JetFFMoments.hh                           |  4 +++-
+ LundPlane/include/fastjet/contrib/LundEEHelpers.hh     |  1 +
+ Nsubjettiness/AxesDefinition.cc                        |  6 +++---
+ Nsubjettiness/AxesDefinition.hh                        |  8 ++++----
+ Nsubjettiness/Njettiness.cc                            |  4 ++--
+ Nsubjettiness/Njettiness.hh                            |  4 ++--
+ Nsubjettiness/NjettinessPlugin.cc                      |  2 +-
+ Nsubjettiness/NjettinessPlugin.hh                      |  4 ++--
+ Nsubjettiness/Nsubjettiness.cc                         |  2 +-
+ Nsubjettiness/Nsubjettiness.hh                         |  2 +-
+ Nsubjettiness/TauComponents.hh                         |  1 -
+ RecursiveTools/Recluster.cc                            |  2 +-
+ RecursiveTools/RecursiveSymmetryCutBase.cc             |  8 ++++----
+ RecursiveTools/include/fastjet/contrib/Recluster.hh    |  4 +++-
+ .../include/fastjet/contrib/RecursiveSoftDrop.hh       |  2 +-
+ .../fastjet/contrib/RecursiveSymmetryCutBase.hh        |  9 +++++----
+ VariableR/VariableRPlugin.cc                           |  8 ++++----
+ VariableR/VariableRPlugin.hh                           | 10 ++++++----
+ 36 files changed, 88 insertions(+), 69 deletions(-)
 
 diff --git a/CMPPlugin/CMPPlugin.cc b/CMPPlugin/CMPPlugin.cc
 index 07e9289..ea4ccc5 100644
@@ -135,18 +133,40 @@ index 48ac16c..a5d1785 100644
    };
    
  
-diff --git a/EnergyCorrelator/EnergyCorrelator.cc b/EnergyCorrelator/EnergyCorrelator.cc
-index 229b5b4..50bd7dc 100644
---- a/EnergyCorrelator/EnergyCorrelator.cc
-+++ b/EnergyCorrelator/EnergyCorrelator.cc
-@@ -27,6 +27,7 @@
- #include "EnergyCorrelator.hh"
- #include <sstream>
- #include <limits>
-+#include <algorithm>
- using namespace std;
+diff --git a/DynamicR/DynamicR.cc b/DynamicR/DynamicR.cc
+index 39221fd..3810585 100644
+--- a/DynamicR/DynamicR.cc
++++ b/DynamicR/DynamicR.cc
+@@ -192,7 +192,7 @@ private:
+ //------------------------------------------------------------------
  
- FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
+ // Static flag to ensure the banner is printed only once.
+-bool DynamicR::_first_time = true;
++DYNAMICR_WINDLL bool DynamicR::_first_time = true;
+ 
+ // Return a human-readable description of the plugin configuration.
+ string DynamicR::description () const {
+diff --git a/DynamicR/include/fastjet/contrib/DynamicR.hh b/DynamicR/include/fastjet/contrib/DynamicR.hh
+index bc3f424..8a87b38 100644
+--- a/DynamicR/include/fastjet/contrib/DynamicR.hh
++++ b/DynamicR/include/fastjet/contrib/DynamicR.hh
+@@ -27,6 +27,7 @@
+ #ifndef __FASTJET_CONTRIB_DYNAMICR_HH__
+ #define __FASTJET_CONTRIB_DYNAMICR_HH__
+ 
++#include "dynamicr_defines.h"
+ #include "fastjet/internal/base.hh"
+ #include "fastjet/JetDefinition.hh"    // JetDefinition class
+ 
+@@ -159,7 +160,7 @@ private:
+ 
+   JetDefinition::DefaultRecombiner _jet_recombiner;  // Recombiner used for merging pseudojets
+ 
+-  static bool _first_time;       // Static flag, will be used for one-time banner printing or setup
++  DYNAMICR_WINDLL static bool _first_time;       // Static flag, will be used for one-time banner printing or setup
+ 
+   template<class BJ> void actual_run(ClusterSequence &) const;  // Internal actual implementation of the clustering run
+ 
 diff --git a/FlavorCone/FlavorCone.cc b/FlavorCone/FlavorCone.cc
 index 37fd092..1b9257d 100644
 --- a/FlavorCone/FlavorCone.cc
@@ -246,19 +266,10 @@ index 6223385..ce5ddde 100644
  //----------------------------------------------------------------------
  string FlavInfo::description() const {
 diff --git a/IFNPlugin/FlavNeutraliser.cc b/IFNPlugin/FlavNeutraliser.cc
-index 6c7e153..9a704b4 100644
+index f34c882..acbadc3 100644
 --- a/IFNPlugin/FlavNeutraliser.cc
 +++ b/IFNPlugin/FlavNeutraliser.cc
-@@ -8,7 +8,7 @@
- #endif
- 
- #include <limits>
--
-+#include <algorithm>
- #include <numeric>
- #include <tuple>
- 
-@@ -25,7 +25,7 @@ namespace contrib{
+@@ -26,7 +26,7 @@ namespace contrib{
    
  // Set the scale at which to switch from standard measures (e.g. cosphi_coshy)
  // to delta_R measure for small delta_R
@@ -267,7 +278,7 @@ index 6c7e153..9a704b4 100644
      pow(std::numeric_limits<double>::epsilon(), 0.5);
  
  /// returns true if there is flavour to neutralise betwen jets j & k
-@@ -270,6 +270,8 @@ bool jet_flavour_compare(const vector<fastjet::PseudoJet> &j,
+@@ -271,6 +271,8 @@ bool jet_flavour_compare(const vector<fastjet::PseudoJet> &j,
    return true;
  }
  
@@ -276,7 +287,7 @@ index 6c7e153..9a704b4 100644
  //----------------------------------------------------------------------
  // Compare net flavour of each jet from a pair of vector<fastjet::PseudoJet>
  // objects.
-@@ -299,6 +301,7 @@ bool jet_net_flavour_compare(vector<fastjet::PseudoJet> &j,
+@@ -300,6 +302,7 @@ bool jet_net_flavour_compare(vector<fastjet::PseudoJet> &j,
    return 1;
  }
  
@@ -284,7 +295,7 @@ index 6c7e153..9a704b4 100644
  //----------------------------------------------------------------------
  // The method takes a ClusterSequence as argument and goes through
  // each step of the declustering to neutralise flavour
-@@ -317,10 +320,7 @@ std::vector<PseudoJet> FlavNeutraliser::neutralise(ClusterSequence & cs) const {
+@@ -318,10 +321,7 @@ std::vector<PseudoJet> FlavNeutraliser::neutralise(ClusterSequence & cs) const {
    const vector<ClusterSequence::history_element> & hist = cs.history();
  
    // shorthand for the hardness (as of 2022-07-26, not yet being used everywhere)
@@ -431,18 +442,6 @@ index 792222b..33741b6 100644
  
  FASTJET_BEGIN_NAMESPACE
  
-diff --git a/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh b/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
-index ff73a0b..70c9301 100644
---- a/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
-+++ b/LundPlane/include/fastjet/contrib/RecursiveLundEEGenerator.hh
-@@ -33,6 +33,7 @@
- #include <vector>
- #include <utility>
- #include <queue>
-+#include <algorithm>
- 
- using namespace std;
- 
 diff --git a/Nsubjettiness/AxesDefinition.cc b/Nsubjettiness/AxesDefinition.cc
 index 1411139..7f03964 100644
 --- a/Nsubjettiness/AxesDefinition.cc
@@ -461,7 +460,7 @@ index 1411139..7f03964 100644
  std::vector<fastjet::PseudoJet> Manual_Axes::get_starting_axes(int,
                                                                 const std::vector<fastjet::PseudoJet>&,
 diff --git a/Nsubjettiness/AxesDefinition.hh b/Nsubjettiness/AxesDefinition.hh
-index be97d59..131bb13 100644
+index 0646268..8f237de 100644
 --- a/Nsubjettiness/AxesDefinition.hh
 +++ b/Nsubjettiness/AxesDefinition.hh
 @@ -25,7 +25,7 @@
@@ -471,17 +470,9 @@ index be97d59..131bb13 100644
 -
 +#include "nsubjettiness_defines.h"
  #include "MeasureDefinition.hh"
+ #include <algorithm>
  #include "ExtraRecombiners.hh"
- 
-@@ -36,6 +36,7 @@
- #include <cmath>
- #include <vector>
- #include <list>
-+#include <algorithm>
- 
- FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
- 
-@@ -266,7 +267,7 @@ public:
+@@ -267,7 +267,7 @@ public:
  
  private:
     fastjet::JetDefinition _def; ///< Jet definition to use.
@@ -490,7 +481,7 @@ index be97d59..131bb13 100644
  };
  
  ///------------------------------------------------------------------------
-@@ -350,7 +351,7 @@ public:
+@@ -351,7 +351,7 @@ public:
  private:
     fastjet::JetDefinition _def;   ///< Jet definition to use
     int _nExtra;                   ///< Extra axes to find
@@ -499,7 +490,7 @@ index be97d59..131bb13 100644
  };
     
  ///------------------------------------------------------------------------
-@@ -393,7 +394,7 @@ public:
+@@ -394,7 +394,7 @@ public:
  private:
     fastjet::JetDefinition _def;  ///< Jet Definition to use.
     
@@ -611,10 +602,10 @@ index ecb1ad6..9a04071 100644
  #include <vector>
  #include <list>
 diff --git a/RecursiveTools/Recluster.cc b/RecursiveTools/Recluster.cc
-index 7a5667f..d93caed 100644
+index 657b9d9..be9d8e2 100644
 --- a/RecursiveTools/Recluster.cc
 +++ b/RecursiveTools/Recluster.cc
-@@ -46,7 +46,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
+@@ -48,7 +48,7 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
  
  namespace contrib{
  
@@ -624,7 +615,7 @@ index 7a5667f..d93caed 100644
  // class description
  string Recluster::description() const {
 diff --git a/RecursiveTools/RecursiveSymmetryCutBase.cc b/RecursiveTools/RecursiveSymmetryCutBase.cc
-index b90b613..84f9642 100644
+index 5100a05..d4c0c64 100644
 --- a/RecursiveTools/RecursiveSymmetryCutBase.cc
 +++ b/RecursiveTools/RecursiveSymmetryCutBase.cc
 @@ -32,12 +32,12 @@ FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
@@ -714,31 +705,6 @@ index e27e7bc..50c497f 100644
  
    // additional verbose structure information
    bool _verbose_structure;
-diff --git a/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc b/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
-index 2f1f741..324126d 100644
---- a/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
-+++ b/SignalFreeBackgroundEstimator/SignalFreeBackgroundEstimator.cc
-@@ -21,6 +21,7 @@
- // along with this code. If not, see <http://www.gnu.org/licenses/>.
- //----------------------------------------------------------------------
- 
-+#include <algorithm>
- #include "SignalFreeBackgroundEstimator.hh"
- 
- FASTJET_BEGIN_NAMESPACE      // defined in fastjet/internal/base.hh
-diff --git a/SoftKiller/SoftKiller.cc b/SoftKiller/SoftKiller.cc
-index 6ab411f..f25638c 100644
---- a/SoftKiller/SoftKiller.cc
-+++ b/SoftKiller/SoftKiller.cc
-@@ -19,6 +19,8 @@
- // along with this code. If not, see <http://www.gnu.org/licenses/>.
- //----------------------------------------------------------------------
- 
-+#include <algorithm>
-+
- #include "SoftKiller.hh"
- #include <sstream>
- 
 diff --git a/VariableR/VariableRPlugin.cc b/VariableR/VariableRPlugin.cc
 index 7de47ca..0f27a9c 100644
 --- a/VariableR/VariableRPlugin.cc
@@ -801,5 +767,5 @@ index ee88f13..5ae2fbb 100644
      // helper function to decide what strategy is best
      //
 -- 
-2.39.5 (Apple Git-154)
+2.54.0 (Apple Git-157)
 
