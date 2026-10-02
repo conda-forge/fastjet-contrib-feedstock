@@ -4,7 +4,9 @@ set -x
 # The repository is too large to vendor in the info/test/ package metadata, so download it
 # Need to use PKG_VERSION as the shell script doesn't have access to Jinja2 variables
 # c.f. https://docs.conda.io/projects/conda-build/en/stable/user-guide/environment-variables.html#environment-variables-set-during-the-build-process
-curl -sL https://fastjet.hepforge.org/contrib/downloads/fjcontrib-"${PKG_VERSION}".tar.gz | tar -xz
+# Download to a file: curl --retry restarts a failed transfer, which a pipe into tar cannot undo
+curl -fsSL --retry 5 --retry-all-errors -o fjcontrib.tar.gz https://fastjet.fr/contrib/downloads/fjcontrib-"${PKG_VERSION}".tar.gz
+tar -xzf fjcontrib.tar.gz
 cd fjcontrib-"${PKG_VERSION}"
 
 cd Centauro
