@@ -71,9 +71,9 @@ layout you link against (plus a compiler, e.g. `cxx-compiler`).
 
 ## Further details
 
-- Before the split (`fastjet-contrib` and `fastjet-contrib-split` 1.104 build 2 and earlier), each
-  runtime package also held the headers and the CMake files. From build 3 on, those are only in the
-  `-devel` outputs. A recipe that kept `fastjet-contrib` or `fastjet-contrib-split` in `host` now
+- Before the split (`fastjet-contrib` and `fastjet-contrib-split` 1.105 build 0 and earlier), each
+  runtime package also held the headers and the CMake files. From 1.105 build 1 on, those are only in
+  the `-devel` outputs. A recipe that kept `fastjet-contrib` or `fastjet-contrib-split` in `host` now
   fails to find fjcontrib's headers: switch it to the matching `-devel` output (case A).
 - FastJet itself is split the same way: `fastjet-cxx` (runtime) and `fastjet-cxx-devel`. See
   conda-forge/fastjet-cxx-feedstock#27 and its `recipe/README.md`.
