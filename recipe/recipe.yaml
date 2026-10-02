@@ -17,13 +17,21 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
       name: fastjet-contrib
 
     build:
+      files:
+        - if: unix
+          then:
+            - lib/libfastjetcontribfragile*.so*
+            - lib/libfastjetcontribfragile*.dylib
+        - if: win
+          then:
+            - Library/bin/fastjetcontribfragile.dll
       script:
         - if: win
           then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
@@ -50,22 +58,80 @@ outputs:
         - fastjet-cxx-devel
       run:
         - fastjet-cxx
+
+    tests:
+      - package_contents:
+          strict: true
+          files:
+            not_exists:
+              - include/**
+              - lib/cmake/**
+              - Library/include/**
+              - Library/lib/cmake/**
+          lib:
+            - if: unix
+              then: fastjetcontribfragile
+          bin:
+            - if: win
+              then: fastjetcontribfragile.dll
+
+  - package:
+      name: fastjet-contrib-devel
+
+    build:
+      files:
+        - if: unix
+          then:
+            - include/fastjet/contrib/**
+            - lib/cmake/fastjetcontrib/**
+        - if: win
+          then:
+            - Library/include/fastjet/contrib/**
+            - Library/lib/cmake/fastjetcontrib/**
+            - Library/lib/fastjetcontribfragile.lib
+      script:
+        - if: win
+          then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
+          else: cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=ON -S . -B build
+        - cmake -LH build
+        - if: win
+          then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+          else: cmake --build build --parallel="${CPU_COUNT}"
+        - cmake --install build
+
+    requirements:
+      run_exports:
+        - ${{ pin_subpackage("fastjet-contrib", upper_bound="x") }}
+      build:
+        - ${{ stdlib("c") }}
+        - ${{ compiler("cxx") }}
+        - cmake
+        - if: unix
+          then: make
+      host:
+        - if: not (win and arm64)
+          then: cgal-cpp
+        - fastjet-cxx
+        - fastjet-cxx-devel
+      run:
+        - ${{ pin_subpackage("fastjet-contrib", exact=True) }}
         - fastjet-cxx-devel
 
     tests:
       - package_contents:
           strict: true
           files:
-            - if: win
-              then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
-              else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            exists:
+              - if: win
+                then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+                else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            not_exists:
+              - lib/*.so*
+              - lib/*.dylib
+              - Library/bin/*.dll
           lib:
             - if: win
               then: fastjetcontribfragile.lib
-              else: fastjetcontribfragile
-          bin:
-            - if: win
-              then: fastjetcontribfragile.dll
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -134,11 +200,18 @@ outputs:
                 - grep
                 - sed
 
-
   - package:
       name: fastjet-contrib-split
 
     build:
+      files:
+        - if: unix
+          then:
+            - lib/lib*.so*
+            - lib/lib*.dylib
+        - if: win
+          then:
+            - Library/bin/*.dll
       script:
         - if: win
           then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
@@ -165,44 +238,19 @@ outputs:
         - fastjet-cxx-devel
       run:
         - fastjet-cxx
-        - fastjet-cxx-devel
 
     tests:
       - package_contents:
           strict: true
           files:
-            - if: win
-              then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
-              else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            not_exists:
+              - include/**
+              - lib/cmake/**
+              - Library/include/**
+              - Library/lib/cmake/**
           lib:
-            - if: win
+            - if: unix
               then:
-                - CMPPlugin.lib
-                - Centauro.lib
-                - ClusteringVetoPlugin.lib
-                - ConstituentSubtractor.lib
-                - DISGenkt.lib
-                - DynamicR.lib
-                - EnergyCorrelator.lib
-                - FlavorCone.lib
-                - GHSAlgo.lib
-                - GenericSubtractor.lib
-                - IFNPlugin.lib
-                - JetCleanser.lib
-                - JetFFMoments.lib
-                - JetsWithoutJets.lib
-                - LundPlane.lib
-                - Nsubjettiness.lib
-                - QCDAwarePlugin.lib
-                - RecursiveTools.lib
-                - SDFPlugin.lib
-                - ScJet.lib
-                - SignalFreeBackgroundEstimator.lib
-                - SoftKiller.lib
-                - SubjetCounting.lib
-                - ValenciaPlugin.lib
-                - VariableR.lib
-              else:
                 - CMPPlugin
                 - Centauro
                 - ClusteringVetoPlugin
@@ -256,6 +304,89 @@ outputs:
                 - SubjetCounting.dll
                 - ValenciaPlugin.dll
                 - VariableR.dll
+
+  - package:
+      name: fastjet-contrib-split-devel
+
+    build:
+      files:
+        - if: unix
+          then:
+            - include/fastjet/contrib/**
+            - lib/cmake/fastjetcontrib/**
+        - if: win
+          then:
+            - Library/include/fastjet/contrib/**
+            - Library/lib/cmake/fastjetcontrib/**
+            - Library/lib/*.lib
+      script:
+        - if: win
+          then: cmake %CMAKE_ARGS% -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
+          else: cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_BUILD_TYPE=Release -DFASTJETCONTRIB_ENABLE_FRAGILELIB=OFF -S . -B build
+        - cmake -LH build
+        - if: win
+          then: cmake --build build --config=Release --parallel="%CPU_COUNT%"
+          else: cmake --build build --parallel="${CPU_COUNT}"
+        - cmake --install build
+
+    requirements:
+      run_exports:
+        - ${{ pin_subpackage("fastjet-contrib-split", upper_bound="x") }}
+      build:
+        - ${{ stdlib("c") }}
+        - ${{ compiler("cxx") }}
+        - cmake
+        - if: unix
+          then: make
+      host:
+        - if: not (win and arm64)
+          then: cgal-cpp
+        - fastjet-cxx
+        - fastjet-cxx-devel
+      run:
+        - ${{ pin_subpackage("fastjet-contrib-split", exact=True) }}
+        - fastjet-cxx-devel
+
+    tests:
+      - package_contents:
+          strict: true
+          files:
+            exists:
+              - if: win
+                then: Library/lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+                else: lib/cmake/fastjetcontrib/fastjetcontrib*.cmake
+            not_exists:
+              - lib/*.so*
+              - lib/*.dylib
+              - Library/bin/*.dll
+          lib:
+            - if: win
+              then:
+                - CMPPlugin.lib
+                - Centauro.lib
+                - ClusteringVetoPlugin.lib
+                - ConstituentSubtractor.lib
+                - DISGenkt.lib
+                - DynamicR.lib
+                - EnergyCorrelator.lib
+                - FlavorCone.lib
+                - GHSAlgo.lib
+                - GenericSubtractor.lib
+                - IFNPlugin.lib
+                - JetCleanser.lib
+                - JetFFMoments.lib
+                - JetsWithoutJets.lib
+                - LundPlane.lib
+                - Nsubjettiness.lib
+                - QCDAwarePlugin.lib
+                - RecursiveTools.lib
+                - SDFPlugin.lib
+                - ScJet.lib
+                - SignalFreeBackgroundEstimator.lib
+                - SoftKiller.lib
+                - SubjetCounting.lib
+                - ValenciaPlugin.lib
+                - VariableR.lib
           include:
             - fastjet/contrib/*.h
             - fastjet/contrib/AxesDefinition.hh
@@ -334,6 +465,8 @@ about:
     while the `fastjet-contrib-split` output provides individual shared object
     libraries for each contrib. Please choose the output appropriate to your
     use case and development patterns.
+    Headers and the CMake package configuration are in the matching
+    `-devel` outputs.
   license: GPL-2.0-or-later
   license_family: GPL
   license_file: COPYING
