@@ -17,7 +17,7 @@ source:
     - 0004-required-source-changes-for-windows-build.patch
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - package:
