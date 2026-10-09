@@ -19,6 +19,8 @@ provides a single merged shared object library that contains all contribs,
 while the `fastjet-contrib-split` output provides individual shared object
 libraries for each contrib. Please choose the output appropriate to your
 use case and development patterns.
+Headers and the CMake package configuration are in the matching
+`-devel` outputs.
 
 Current build status
 ====================
@@ -72,7 +74,9 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib.svg)](https://anaconda.org/conda-forge/fastjet-contrib) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib--devel-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-devel) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib--split-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib-split.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-fastjet--contrib--split--devel-green.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/fastjet-contrib-split-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/fastjet-contrib-split-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/fastjet-contrib-split-devel.svg)](https://anaconda.org/conda-forge/fastjet-contrib-split-devel) |
 
 Installing fastjet-contrib
 ==========================
@@ -91,7 +95,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install fastjet-contrib fastjet-contrib-split
+conda install fastjet-contrib fastjet-contrib-devel fastjet-contrib-split fastjet-contrib-split-devel
 ```
 
 </details>
@@ -100,7 +104,7 @@ conda install fastjet-contrib fastjet-contrib-split
 <summary>With mamba</summary>
 
 ```
-mamba install fastjet-contrib fastjet-contrib-split
+mamba install fastjet-contrib fastjet-contrib-devel fastjet-contrib-split fastjet-contrib-split-devel
 ```
 
 </details>
@@ -110,9 +114,9 @@ mamba install fastjet-contrib fastjet-contrib-split
 
 ```
 # for adding to your local project
-pixi add fastjet-contrib fastjet-contrib-split
+pixi add fastjet-contrib fastjet-contrib-devel fastjet-contrib-split fastjet-contrib-split-devel
 # for installing globally
-pixi global install fastjet-contrib fastjet-contrib-split
+pixi global install fastjet-contrib fastjet-contrib-devel fastjet-contrib-split fastjet-contrib-split-devel
 ```
 
 </details>
@@ -235,7 +239,4 @@ Feedstock Maintainers
 * [@kratsg](https://github.com/kratsg/)
 * [@lgray](https://github.com/lgray/)
 * [@matthewfeickert](https://github.com/matthewfeickert/)
-
-
-<!-- dummy commit to enable rerendering -->
 
